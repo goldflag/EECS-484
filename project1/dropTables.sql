@@ -1,6 +1,8 @@
 DROP VIEW users_view;
 
 DROP VIEW instutition_view;
+DROP VIEW cities_view1;
+DROP VIEW cities_view2;
 
 
 DROP TABLE MESSAGES;
