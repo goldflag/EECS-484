@@ -86,6 +86,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 info.addLeastPopularBirthMonthUser(new UserInfo(rst.getLong(1), rst.getString(2), rst.getString(3)));
             }
 
+
             // Step 4
             // ------------
             // * Close resources being used
@@ -124,7 +125,73 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 info.setCommonNameCount(42);
                 return info;
             */
-            return new FirstNameInfo();                // placeholder for compilation
+
+            /*
+
+                SELECT DISTINCT(FIRST_NAME), MONKE FROM (
+                    SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM project2.PUBLIC_USERS
+                ) ORDER BY MONKE DESC;
+
+                SELECT * FROM (
+                    SELECT COUNT(FIRST_NAME) AS CT, FIRST_NAME FROM project2.PUBLIC_USERS GROUP BY FIRST_NAME
+                ) ORDER BY CT DESC;
+            */
+
+            FirstNameInfo info = new FirstNameInfo();
+
+            ResultSet rst = stmt.executeQuery(
+                "SELECT DISTINCT(FIRST_NAME), MONKE FROM ( " +     
+                "SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM " + UsersTable + " " +   
+                ") ORDER BY MONKE DESC; ");
+
+
+            int count1 = 0;
+            while (rst.next()) {
+                if (count1 != 0) {
+                    if (rst.getInt(2) != count1) {
+                        break;
+                    }
+                }
+                count1 = rst.getInt(2);
+                info.addLongName(rst.getString(1));
+            }
+
+            rst = stmt.executeQuery(
+                "SELECT DISTINCT(FIRST_NAME), MONKE FROM ( " +     
+                "SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM " + UsersTable + " " +   
+                ") ORDER BY MONKE ASC; ");
+
+            int count2 = 0;
+            while (rst.next()) {
+                if (count2 != 0) {
+                    if (rst.getInt(2) != count2) {
+                        break;
+                    }
+                }
+                count2 = rst.getInt(2);
+                info.addShortName(rst.getString(1));
+            }
+
+            rst = stmt.executeQuery(
+                "SELECT * FROM ( " +     
+                "SELECT COUNT(FIRST_NAME) AS CT, FIRST_NAME FROM " + UsersTable + " GROUP BY FIRST_NAME " +   
+                ") ORDER BY CT DESC; ");
+
+
+            int count3 = 0;
+
+            while (rst.next()) {
+                if (count3 != 0) {
+                    if (rst.getInt(1) != count3) {
+                        break;
+                    }
+                }
+                count3 = rst.getInt(1);
+                info.addCommonName(rst.getString(2));
+                info.setCommonNameCount(rst.getInt(1));
+            }
+
+            return info;
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
