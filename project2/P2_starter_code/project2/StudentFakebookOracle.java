@@ -148,7 +148,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 count1 = rst.getInt(2);
                 count1Arr.add(rst.getString(1));
             }
-            Collections.sort(count1Arr, Collections.reverseOrder());
+            Collections.sort(count1Arr);
 
             for (String i : count1Arr) {
                 info.addLongName(i);
@@ -171,7 +171,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 count2Arr.add(rst.getString(1));
 
             }
-            Collections.sort(count2Arr, Collections.reverseOrder());
+            Collections.sort(count2Arr);
 
             for (String i : count2Arr) {
                 info.addShortName(i);
@@ -197,6 +197,8 @@ public final class StudentFakebookOracle extends FakebookOracle {
 
                 info.setCommonNameCount(rst.getInt(1));
             }
+
+            Collections.sort(count3Arr);
             for (String i : count3Arr) {
                 info.addCommonName(i);
             }
