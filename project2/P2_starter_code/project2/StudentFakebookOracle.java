@@ -271,7 +271,29 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 UserInfo u2 = new UserInfo(104, "Tom", "Hanks");
                 results.add(u1);
                 results.add(u2);
+CurrentCitiesTable HometownCitiesTable
+
+                SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM project2.PUBLIC_USERS users 
+                INNER JOIN project2.PUBLIC_USER_CURRENT_CITY current_city 
+                ON users.USER_ID = current_city.USER_ID 
+                INNER JOIN project2.PUBLIC_USER_HOMETOWN_CITY hometown_city 
+                ON users.USER_ID = hometown_city.USER_ID 
+                WHERE hometown_city.HOMETOWN_CITY_ID != current_city.CURRENT_CITY_ID
+                ORDER BY users.USER_ID asc;
             */
+
+            ResultSet rst = stmt.executeQuery(
+                "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME " + UsersTable + " users " +
+                "INNER JOIN " + CurrentCitiesTable + " current_city " +
+                "ON users.USER_ID = current_city.USER_ID " +
+                "INNER JOIN " + HometownCitiesTable + " hometown_city " +
+                "ON users.USER_ID = hometown_city.USER_ID " + 
+                "WHERE hometown_city.HOMETOWN_CITY_ID != current_city.CURRENT_CITY_ID " + 
+                "ORDER BY users.USER_ID asc");  
+
+            while (rst.next()) {
+                results.add(new UserInfo(rst.getLong(1), rst.getString(2), rst.getString(3)));
+            }
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
