@@ -229,12 +229,29 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 UserInfo u2 = new UserInfo(39, "Margaret", "Thatcher");
                 results.add(u1);
                 results.add(u2);
+
+
+                SELECT USER_ID, FIRST_NAME, LAST_NAME FROM project2.PUBLIC_USERS users 
+                LEFT JOIN project2.PUBLIC_FRIENDS friends 
+                ON users.USER_ID = friends.USER1_ID OR users.USER_ID = friends.USER2_ID 
+                WHERE friends.USER2_ID IS NULL AND friends.USER1_ID IS NULL;
             */
+
+            ResultSet rst = stmt.executeQuery(
+                "SELECT USER_ID, FIRST_NAME, LAST_NAME FROM " + UsersTable + " users " +
+                "LEFT JOIN " + FriendsTable + " friends " + 
+                "ON users.USER_ID = friends.USER1_ID OR users.USER_ID = friends.USER2_ID " + 
+                "WHERE friends.USER2_ID IS NULL AND friends.USER1_ID IS NULL");  
+
+            while (rst.next()) {
+                results.add(new UserInfo(rst.getLong(1), rst.getString(2), rst.getString(3)));
+            }
+
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
+
         return results;
     }
     
