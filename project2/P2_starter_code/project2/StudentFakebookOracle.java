@@ -1,5 +1,8 @@
 package project2;
+import java.util.*;
 
+
+import java.util.Collections;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -126,17 +129,6 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 return info;
             */
 
-            /*
-
-                SELECT DISTINCT(FIRST_NAME), MONKE FROM (
-                    SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM project2.PUBLIC_USERS
-                ) ORDER BY MONKE DESC;
-
-                SELECT * FROM (
-                    SELECT COUNT(FIRST_NAME) AS CT, FIRST_NAME FROM project2.PUBLIC_USERS GROUP BY FIRST_NAME
-                ) ORDER BY CT DESC;
-            */
-
             FirstNameInfo info = new FirstNameInfo();
 
             ResultSet rst = stmt.executeQuery(
@@ -146,6 +138,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
 
 
             int count1 = 0;
+            ArrayList<String> count1Arr = new ArrayList<String>();
             while (rst.next()) {
                 if (count1 != 0) {
                     if (rst.getInt(2) != count1) {
@@ -153,7 +146,12 @@ public final class StudentFakebookOracle extends FakebookOracle {
                     }
                 }
                 count1 = rst.getInt(2);
-                info.addLongName(rst.getString(1));
+                count1Arr.add(rst.getString(1));
+            }
+            Collections.sort(count1Arr, Collections.reverseOrder());
+
+            for (String i : count1Arr) {
+                info.addLongName(i);
             }
 
             rst = stmt.executeQuery(
@@ -162,6 +160,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 ") ORDER BY MONKE ASC ");
 
             int count2 = 0;
+            ArrayList<String> count2Arr = new ArrayList<String>();
             while (rst.next()) {
                 if (count2 != 0) {
                     if (rst.getInt(2) != count2) {
@@ -169,7 +168,13 @@ public final class StudentFakebookOracle extends FakebookOracle {
                     }
                 }
                 count2 = rst.getInt(2);
-                info.addShortName(rst.getString(1));
+                count2Arr.add(rst.getString(1));
+
+            }
+            Collections.sort(count2Arr, Collections.reverseOrder());
+
+            for (String i : count2Arr) {
+                info.addShortName(i);
             }
 
             rst = stmt.executeQuery(
@@ -179,6 +184,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
 
 
             int count3 = 0;
+            ArrayList<String> count3Arr = new ArrayList<String>();
 
             while (rst.next()) {
                 if (count3 != 0) {
@@ -187,8 +193,12 @@ public final class StudentFakebookOracle extends FakebookOracle {
                     }
                 }
                 count3 = rst.getInt(1);
-                info.addCommonName(rst.getString(2));
+                count3Arr.add(rst.getString(2));
+
                 info.setCommonNameCount(rst.getInt(1));
+            }
+            for (String i : count3Arr) {
+                info.addCommonName(i);
             }
 
             return info;
