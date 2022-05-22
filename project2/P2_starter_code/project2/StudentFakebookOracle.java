@@ -142,7 +142,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
             ResultSet rst = stmt.executeQuery(
                 "SELECT DISTINCT(FIRST_NAME), MONKE FROM ( " +     
                 "SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM " + UsersTable + " " +   
-                ") ORDER BY MONKE DESC; ");
+                ") ORDER BY MONKE DESC");
 
 
             int count1 = 0;
@@ -159,7 +159,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
             rst = stmt.executeQuery(
                 "SELECT DISTINCT(FIRST_NAME), MONKE FROM ( " +     
                 "SELECT FIRST_NAME, length(FIRST_NAME) AS MONKE FROM " + UsersTable + " " +   
-                ") ORDER BY MONKE ASC; ");
+                ") ORDER BY MONKE ASC ");
 
             int count2 = 0;
             while (rst.next()) {
@@ -175,7 +175,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
             rst = stmt.executeQuery(
                 "SELECT * FROM ( " +     
                 "SELECT COUNT(FIRST_NAME) AS CT, FIRST_NAME FROM " + UsersTable + " GROUP BY FIRST_NAME " +   
-                ") ORDER BY CT DESC; ");
+                ") ORDER BY CT DESC");
 
 
             int count3 = 0;
