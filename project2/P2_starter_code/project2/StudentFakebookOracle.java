@@ -283,7 +283,7 @@ CurrentCitiesTable HometownCitiesTable
             */
 
             ResultSet rst = stmt.executeQuery(
-                "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME " + UsersTable + " users " +
+                "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + UsersTable + " users " +
                 "INNER JOIN " + CurrentCitiesTable + " current_city " +
                 "ON users.USER_ID = current_city.USER_ID " +
                 "INNER JOIN " + HometownCitiesTable + " hometown_city " +
