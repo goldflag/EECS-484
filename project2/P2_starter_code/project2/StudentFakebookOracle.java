@@ -549,7 +549,8 @@ CurrentCitiesTable HometownCitiesTable
                 UserInfo u1 = new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3));
                 UserInfo u2 = new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7));
 
-                System.out.println(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)),  new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7)));
+                System.out.println(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
+                System.out.println(new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7)));
                 MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
 
                 // ResultSet monke2 = stmt.executeQuery(
