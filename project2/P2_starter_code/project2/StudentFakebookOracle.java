@@ -665,8 +665,69 @@ CurrentCitiesTable HometownCitiesTable
                 UserInfo old = new UserInfo(12000000, "Galileo", "Galilei");
                 UserInfo young = new UserInfo(80000000, "Neil", "deGrasse Tyson");
                 return new AgeInfo(old, young);
+
+                CREATE VIEW FRENS AS 
+                SELECT 
+                    USERS.USER_ID,
+                    users.FIRST_NAME,
+                    users.LAST_NAME,
+                    users.YEAR_OF_BIRTH,
+                    users.MONTH_OF_BIRTH,
+                    users.DAY_OF_BIRTH
+                FROM (
+                    SELECT * FROM project2.PUBLIC_FRIENDS frens
+                    WHERE frens.USER2_ID = 500 or frens.USER1_ID = 500
+                ) monke
+                JOIN project2.PUBLIC_USERS users 
+                ON users.USER_ID = monke.USER1_ID or users.USER_ID = monke.USER2_ID
+                WHERE users.USER_ID != 500
+                ORDER BY 
+                    users.YEAR_OF_BIRTH,
+                    users.MONTH_OF_BIRTH,
+                    users.DAY_OF_BIRTH; 
+
             */
-            return new AgeInfo(new UserInfo(-1, "UNWRITTEN", "UNWRITTEN"), new UserInfo(-1, "UNWRITTEN", "UNWRITTEN"));                // placeholder for compilation
+
+            stmt.executeUpdate(
+                "CREATE VIEW FRENS AS " +
+                "SELECT " +
+                "    users.USER_ID," +
+                "    users.FIRST_NAME," +
+                "    users.LAST_NAME," +
+                "    users.YEAR_OF_BIRTH," +
+                "    users.MONTH_OF_BIRTH," +
+                "    users.DAY_OF_BIRTH" +
+                "FROM (" +
+                "    SELECT * FROM " + FriendsTable + " frens" +
+                "    WHERE frens.USER2_ID = 500 or frens.USER1_ID = 500" +
+                ") monke" +
+                "JOIN " + UsersTable + " users " +
+                "ON users.USER_ID = monke.USER1_ID or users.USER_ID = monke.USER2_ID" +
+                "WHERE users.USER_ID != 500" +
+                "ORDER BY " +
+                "    users.YEAR_OF_BIRTH asc," +
+                "    users.MONTH_OF_BIRTH asc," +
+                "    users.DAY_OF_BIRTH asc"
+            );
+
+
+            UserInfo old = new UserInfo(12000000, "Galileo", "Galilei");
+            UserInfo young = new UserInfo(80000000, "Neil", "deGrasse Tyson");
+            ResultSet smallest = stmt.executeQuery("SELECT * FROM FRENS");
+            while (smallest.next()) {
+                young = new UserInfo(smallest.getLong(1), smallest.getString(2), smallest.getString(3));
+                break;
+            }
+
+            ResultSet largest = stmt.executeQuery("SELECT * FROM FRENS ORDER BY YEAR_OF_BIRTH desc, MONTH_OF_BIRTH desc, DAY_OF_BIRTH desc");
+            while (largest.next()) {
+                old = new UserInfo(largest.getLong(1), largest.getString(2), largest.getString(3));
+                break;
+            }
+
+            stmt.executeUpdate("DROP VIEW FRENS");
+
+            return new AgeInfo(young, old);                // placeholder for compilation
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
