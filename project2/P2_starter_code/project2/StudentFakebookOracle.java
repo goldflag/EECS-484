@@ -377,10 +377,10 @@ CurrentCitiesTable HometownCitiesTable
                 "FROM second " +
                 "INNER JOIN " + AlbumsTable + " albums " +
                 "ON albums.ALBUM_ID = second.ALBUM_ID";
+            System.out.println(query);
 
             ResultSet rst = stmt.executeQuery(query);  
 
-            System.out.println(query);
 
             while (rst.next()) {
                 // System.out.println(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
