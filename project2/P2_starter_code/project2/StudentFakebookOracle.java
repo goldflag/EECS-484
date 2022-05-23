@@ -381,7 +381,7 @@ CurrentCitiesTable HometownCitiesTable
             );  
 
             while (rst.next()) {
-
+                System.out.println(rst)
                 PhotoInfo p = new PhotoInfo(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
                 ResultSet monke = stmt.executeQuery(
                     "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
@@ -394,6 +394,7 @@ CurrentCitiesTable HometownCitiesTable
                 TaggedPhotoInfo tp = new TaggedPhotoInfo(p);
 
                 while (monke.next()) {
+                    System.out.println(monke)
                     tp.addTaggedUser(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
                 }   
 
