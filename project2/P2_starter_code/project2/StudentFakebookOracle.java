@@ -439,41 +439,113 @@ CurrentCitiesTable HometownCitiesTable
                 INNER JOIN project2.PUBLIC_TAGS tags3
                 ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID 
 
-                SELECT 
-                    user1.USER_ID, 
-                    user2.USER_ID,
                     tags1.TAG_PHOTO_ID,
                     tags2.TAG_PHOTO_ID,
                     tags3.TAG_PHOTO_ID
-                FROM project2.PUBLIC_USERS user1
-                INNER JOIN project2.PUBLIC_USERS user2
-                ON user1.gender = user2.gender AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= 10
-                INNER JOIN project2.PUBLIC_TAGS tags1
-                ON tags1.TAG_SUBJECT_ID = user1.USER_ID
-                INNER JOIN project2.PUBLIC_TAGS tags2
-                ON tags2.TAG_SUBJECT_ID = user2.USER_ID
-                INNER JOIN project2.PUBLIC_TAGS tags3
-                ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID 
-                FULL OUTER JOIN project2.PUBLIC_FRIENDS friends
-                ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
-                WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL
-                GROUP BY user1.USER_ID, user2.USER_ID, tags1.TAG_PHOTO_ID, tags2.TAG_PHOTO_ID, tags3.TAG_PHOTO_ID
-                ORDER BY user1.USER_ID, user2.USER_ID ASC;
 
-                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 764 AND USER2_ID = 777;
-                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 734;
-                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 734 AND USER2_ID = 738;
-                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 725 AND USER2_ID = 726;
-                
+                WITH monke as (
+                    SELECT 
+                        user1.USER_ID AS USER_ID1, 
+                        user1.FIRST_NAME AS USER1_FIRST_NAME, 
+                        user1.LAST_NAME AS USER1_LAST_NAME, 
+                        user1.YEAR_OF_BIRTH AS USER1_BIRTH, 
+                        user2.USER_ID AS USER_ID2,
+                        user2.FIRST_NAME AS USER2_FIRST_NAME,
+                        user2.LAST_NAME AS USER2_LAST_NAME,
+                        user2.YEAR_OF_BIRTH AS USER2_BIRTH,
+                        tags1.TAG_PHOTO_ID 
+                    FROM project2.PUBLIC_USERS user1
+                    INNER JOIN project2.PUBLIC_USERS user2
+                    ON user1.gender = user2.gender AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= 1000
+                    INNER JOIN project2.PUBLIC_TAGS tags1
+                    ON tags1.TAG_SUBJECT_ID = user1.USER_ID
+                    INNER JOIN project2.PUBLIC_TAGS tags2
+                    ON tags2.TAG_SUBJECT_ID = user2.USER_ID
+                    INNER JOIN project2.PUBLIC_TAGS tags3
+                    ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID 
+                    FULL OUTER JOIN project2.PUBLIC_FRIENDS friends
+                    ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
+                    WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL
+                    GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH, user1.FIRST_NAME, user1.LAST_NAME, user2.FIRST_NAME, user2.LAST_NAME,  tags1.TAG_PHOTO_ID
+                    ORDER BY user1.USER_ID, user2.USER_ID ASC
+                )
+                SELECT COUNT(monke.TAG_PHOTO_ID) 
+                FROM MONKE WHERE ROWNUM <= 1000 
+                GROUP BY monke.USER_ID1, monke.USER1_FIRST_NAME, monke.USER1_LAST_NAME, monke.USER1_BIRTH, monke.USER_ID2, monke.USER2_FIRST_NAME, monke.USER2_LAST_NAME, monke.USER2_BIRTH;
+
+                SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK
+
+                WITH query as (
+                    SELECT monke.TAG_PHOTO_ID FROM (
+                        SELECT TAG_PHOTO_ID FROM project2.PUBLIC_TAGS WHERE TAG_SUBJECT_ID = 182
+                    ) monke
+                    INNER JOIN project2.PUBLIC_TAGS tags
+                    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID           
+                ),
+                query2 as (
+                    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM project2.PUBLIC_PHOTOS photos
+                    JOIN query ON query.TAG_PHOTO_ID = photos.PHOTO_ID
+                )
+                SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2
+                JOIN project2.PUBLIC_ALBUMS albums ON albums.ALBUM_ID = query2.ALBUM_ID;
+
             */
 
-            // ResultSet monke = stmt.executeQuery(
-            //     "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
-            //     "INNER JOIN " + UsersTable + " users " +
-            //     "ON users.USER_ID = tags.TAG_SUBJECT_ID  " +
-            //     "WHERE tags.TAG_PHOTO_ID = '"+ rst.getInt(1) + "' " +
-            //     "ORDER by users.USER_ID ASC"
-            // );
+            ResultSet monke = stmt.executeQuery(
+                "SELECT * FROM (" +
+                    "SELECT " +
+                        "user1.USER_ID AS USER_ID1,  " +
+                        "user1.FIRST_NAME AS USER1_FIRST_NAME,  " +
+                        "user1.LAST_NAME AS USER1_LAST_NAME, " +
+                        "user1.YEAR_OF_BIRTH AS USER1_BIRTH,  " +
+                        "user2.USER_ID AS USER_ID2, " +
+                        "user2.FIRST_NAME AS USER2_FIRST_NAME, " +
+                        "user2.LAST_NAME AS USER2_LAST_NAME, " +
+                        "user2.YEAR_OF_BIRTH AS USER2_BIRTH " +
+                    "FROM " + UsersTable + " user1 " +
+                    "INNER JOIN " + UsersTable + " user2 " +
+                    "ON user1.gender = user2.gender AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= " + yearDiff + " " +
+                    "INNER JOIN " + TagsTable + " tags1 " +
+                    "ON tags1.TAG_SUBJECT_ID = user1.USER_ID " +
+                    "INNER JOIN " + TagsTable + " tags2 " +
+                    "ON tags2.TAG_SUBJECT_ID = user2.USER_ID " +
+                    "INNER JOIN " + TagsTable + " tags3 " +
+                    "ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID  " +
+                    "FULL OUTER JOIN " + FriendsTable + " friends " +
+                    "ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID  " +
+                    "WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL " +
+                    "GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH " +
+                    "ORDER BY user1.USER_ID, user2.USER_ID ASC " +
+                ") WHERE ROWNUM <= " + num
+            );
+
+            while (monke.next()) {
+                UserInfo u1 = new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3));
+                UserInfo u2 = new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7));
+                MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
+
+                ResultSet monke2 = stmt.executeQuery(
+                    "WITH query as ( " +
+                    "    SELECT monke.TAG_PHOTO_ID FROM ( " +
+                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
+                    "    ) monke " +
+                    "    INNER JOIN " + TagsTable + " tags " +
+                    "    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID            " +
+                    "), " +
+                    "query2 as ( " +
+                    "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM " + PhotosTable + " photos " +
+                    "    JOIN query ON query.TAG_PHOTO_ID = photos.PHOTO_ID " +
+                    ") " +
+                    "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
+                    "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID "
+                );
+
+                while (monke2.next()) {
+                    PhotoInfo p = new PhotoInfo(monke.getLong(1), monke.getLong(2), monke.getString(3), monke.getString(4));
+                    mp.addSharedPhoto(p);
+                }
+                results.add(mp);
+            }   
 
         }
         catch (SQLException e) {
