@@ -689,26 +689,6 @@ CurrentCitiesTable HometownCitiesTable
             */
             stmt.executeUpdate("DROP VIEW FRENS ");
 
-            System.out.println(                "CREATE VIEW FRENS AS " +
-                "SELECT " +
-                "    users.USER_ID, " +
-                "    users.FIRST_NAME, " +
-                "    users.LAST_NAME, " +
-                "    users.YEAR_OF_BIRTH, " +
-                "    users.MONTH_OF_BIRTH, " +
-                "    users.DAY_OF_BIRTH " +
-                "FROM (" +
-                "    SELECT * FROM " + FriendsTable + " frens" +
-                "    WHERE frens.USER2_ID = 500 or frens.USER1_ID = 500" +
-                ") monke " +
-                "JOIN " + UsersTable + " users " +
-                "ON users.USER_ID = monke.USER1_ID or users.USER_ID = monke.USER2_ID" +
-                "WHERE users.USER_ID != 500" +
-                "ORDER BY " +
-                "    users.YEAR_OF_BIRTH asc," +
-                "    users.MONTH_OF_BIRTH asc," +
-                "    users.DAY_OF_BIRTH asc\n");
-
             stmt.executeUpdate(
                 "CREATE VIEW FRENS AS " +
                 "SELECT " +
@@ -720,11 +700,11 @@ CurrentCitiesTable HometownCitiesTable
                 "    users.DAY_OF_BIRTH " +
                 "FROM ( " +
                 "    SELECT * FROM " + FriendsTable + " frens" +
-                "    WHERE frens.USER2_ID = 500 or frens.USER1_ID = 500 " +
+                "    WHERE frens.USER2_ID = " + userID + " or frens.USER1_ID = " + userID + " " +
                 ") monke " +
                 "JOIN " + UsersTable + " users " +
                 "ON users.USER_ID = monke.USER1_ID or users.USER_ID = monke.USER2_ID " +
-                "WHERE users.USER_ID != 500 " +
+                "WHERE users.USER_ID != " + userID + " " +
                 "ORDER BY " +
                 "    users.YEAR_OF_BIRTH asc, " +
                 "    users.MONTH_OF_BIRTH asc, " +
