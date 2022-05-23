@@ -363,7 +363,7 @@ CurrentCitiesTable HometownCitiesTable
             String query = "WITH first AS ( " +
                 "    SELECT * FROM ( " +
                 "        SELECT * FROM ( " +
-                "            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM" + TagsTable + " GROUP BY TAG_PHOTO_ID " +
+                "            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM " + TagsTable + " GROUP BY TAG_PHOTO_ID " +
                 "        ) ORDER BY ct DESC " +
                 "    ) monke WHERE ROWNUM <= " + num + " " +
                 "), " +
