@@ -360,8 +360,7 @@ CurrentCitiesTable HometownCitiesTable
                 ORDER by users.USER_ID ASC;
             */
 
-            ResultSet rst = stmt.executeQuery(
-                "WITH first AS ( " +
+            String query = "WITH first AS ( " +
                 "    SELECT * FROM ( " +
                 "        SELECT * FROM ( " +
                 "            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM" + TagsTable + " GROUP BY TAG_PHOTO_ID " +
@@ -376,12 +375,15 @@ CurrentCitiesTable HometownCitiesTable
                 "SELECT " +
                 "    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME " +
                 "FROM second " +
-                "INNER JOIN " + AlbumsTable  + " albums " +
-                "ON albums.ALBUM_ID = second.ALBUM_ID" 
-            );  
+                "INNER JOIN " + AlbumsTable + " albums " +
+                "ON albums.ALBUM_ID = second.ALBUM_ID";
+
+            ResultSet rst = stmt.executeQuery(query);  
+
+            System.out.println(query);
 
             while (rst.next()) {
-                System.out.println(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
+                // System.out.println(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
                 PhotoInfo p = new PhotoInfo(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
                 ResultSet monke = stmt.executeQuery(
                     "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
@@ -394,7 +396,7 @@ CurrentCitiesTable HometownCitiesTable
                 TaggedPhotoInfo tp = new TaggedPhotoInfo(p);
 
                 while (monke.next()) {
-                    System.out.println(monke.getLong(1), monke.getString(2), monke.getString(3));
+                    // System.out.println(monke.getLong(1), monke.getString(2), monke.getString(3));
                     tp.addTaggedUser(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
                 }   
 
