@@ -687,28 +687,6 @@ CurrentCitiesTable HometownCitiesTable
                     users.DAY_OF_BIRTH; 
 
             */
-            // stmt.executeUpdate("DROP VIEW FRENS ");
-
-
-            System.out.println("CREATE VIEW FRENS AS " +
-                "SELECT " +
-                "    users.USER_ID, " +
-                "    users.FIRST_NAME, " +
-                "    users.LAST_NAME, " +
-                "    users.YEAR_OF_BIRTH, " +
-                "    users.MONTH_OF_BIRTH, " +
-                "    users.DAY_OF_BIRTH " +
-                "FROM ( " +
-                "    SELECT * FROM " + FriendsTable + " frens" +
-                "    WHERE frens.USER2_ID = " + userID + " or frens.USER1_ID = " + userID + " " +
-                ") monke " +
-                "JOIN " + UsersTable + " users " +
-                "ON users.USER_ID = monke.USER1_ID or users.USER_ID = monke.USER2_ID " +
-                "WHERE users.USER_ID != " + userID + " " +
-                "ORDER BY " +
-                "    users.YEAR_OF_BIRTH asc, " +
-                "    users.MONTH_OF_BIRTH asc, " +
-                "    users.DAY_OF_BIRTH asc ");
 
             stmt.executeUpdate(
                 "CREATE VIEW FRENS AS " +
@@ -749,7 +727,7 @@ CurrentCitiesTable HometownCitiesTable
 
             stmt.executeUpdate("DROP VIEW FRENS ");
 
-            return new AgeInfo(young, old);                // placeholder for compilation
+            return new AgeInfo(young, old);
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
