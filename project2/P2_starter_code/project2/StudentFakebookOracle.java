@@ -288,7 +288,7 @@ CurrentCitiesTable HometownCitiesTable
                 "ON users.USER_ID = current_city.USER_ID " +
                 "INNER JOIN " + HometownCitiesTable + " hometown_city " +
                 "ON users.USER_ID = hometown_city.USER_ID " + 
-                "WHERE hometown_city.HOMETOWN_CITY_ID != current_city.CURRENT_CITY_ID " + 
+                "WHERE hometown_city.HOMETOWN_CITY_sytID != current_city.CURRENT_CITY_ID " + 
                 "ORDER BY users.USER_ID asc");  
 
             while (rst.next()) {
@@ -325,7 +325,81 @@ CurrentCitiesTable HometownCitiesTable
                 tp.addTaggedUser(u2);
                 tp.addTaggedUser(u3);
                 results.add(tp);
+
+                WITH first AS (
+                    SELECT * FROM (
+                        SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM project2.PUBLIC_TAGS GROUP BY TAG_PHOTO_ID
+                    ) monke WHERE ROWNUM <= 10 ORDER BY monke.ct DESC
+                )
+                SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM first
+                JOIN ON project2.PUBLIC_PHOTOS photos
+                WHERE first.TAG_PHOTO_ID = photos.PHOTO_ID;
+
+                WITH first AS (
+                    SELECT * FROM (
+                        SELECT * FROM (
+                            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM project2.PUBLIC_TAGS GROUP BY TAG_PHOTO_ID
+                        ) ORDER BY ct DESC
+                    ) monke WHERE ROWNUM <= 10
+                ),
+                second AS (
+                    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM first
+                    INNER JOIN project2.PUBLIC_PHOTOS photos
+                    ON first.TAG_PHOTO_ID = photos.PHOTO_ID
+                )
+                SELECT
+                    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME
+                FROM second
+                INNER JOIN project2.PUBLIC_ALBUMS albums
+                ON albums.ALBUM_ID = second.ALBUM_ID;
+
+                SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM project2.PUBLIC_TAGS tags 
+                INNER JOIN project2.PUBLIC_USERS users 
+                ON users.USER_ID = tags.TAG_SUBJECT_ID 
+                WHERE tags.TAG_PHOTO_ID = '648'
+                ORDER by users.USER_ID ASC;
             */
+
+            ResultSet rst = stmt.executeQuery(
+                "WITH first AS ( " +
+                "    SELECT * FROM ( " +
+                "        SELECT * FROM ( " +
+                "            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM" + TagsTable + " GROUP BY TAG_PHOTO_ID " +
+                "        ) ORDER BY ct DESC " +
+                "    ) monke WHERE ROWNUM <= " + num + " " +
+                "), " +
+                "second AS ( " +
+                "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM first " +
+                "    INNER JOIN " + PhotosTable + " photos " +
+                "    ON first.TAG_PHOTO_ID = photos.PHOTO_ID " +
+                ") " +
+                "SELECT " +
+                "    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME " +
+                "FROM second " +
+                "INNER JOIN " + AlbumsTable  + " albums " +
+                "ON albums.ALBUM_ID = second.ALBUM_ID" 
+            );  
+
+            while (rst.next()) {
+
+                PhotoInfo p = new PhotoInfo(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
+                ResultSet monke = stmt.executeQuery(
+                    "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
+                    "INNER JOIN " + UsersTable + " users " +
+                    "ON users.USER_ID = tags.TAG_SUBJECT_ID  " +
+                    "WHERE tags.TAG_PHOTO_ID = '"+ rst.getInt(1) + "' " +
+                    "ORDER by users.USER_ID ASC"
+                );
+
+                TaggedPhotoInfo tp = new TaggedPhotoInfo(p);
+
+                while (monke.next()) {
+                    tp.addTaggedUser(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
+                }   
+
+                results.add(tp);
+            }
+
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
