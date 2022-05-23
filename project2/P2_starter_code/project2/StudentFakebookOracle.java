@@ -708,8 +708,8 @@ CurrentCitiesTable HometownCitiesTable
                 "ORDER BY " +
                 "    users.YEAR_OF_BIRTH asc, " +
                 "    users.MONTH_OF_BIRTH asc, " +
-                "    users.DAY_OF_BIRTH asc ")
-                
+                "    users.DAY_OF_BIRTH asc ");
+
             stmt.executeUpdate(
                 "CREATE VIEW FRENS AS " +
                 "SELECT " +
