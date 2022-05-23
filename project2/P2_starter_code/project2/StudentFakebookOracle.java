@@ -710,12 +710,12 @@ CurrentCitiesTable HometownCitiesTable
             stmt.executeUpdate(
                 "CREATE VIEW FRENS AS " +
                 "SELECT " +
-                "    users.USER_ID," +
-                "    users.FIRST_NAME," +
-                "    users.LAST_NAME," +
-                "    users.YEAR_OF_BIRTH," +
-                "    users.MONTH_OF_BIRTH," +
-                "    users.DAY_OF_BIRTH" +
+                "    users.USER_ID, " +
+                "    users.FIRST_NAME, " +
+                "    users.LAST_NAME, " +
+                "    users.YEAR_OF_BIRTH, " +
+                "    users.MONTH_OF_BIRTH, " +
+                "    users.DAY_OF_BIRTH " +
                 "FROM (" +
                 "    SELECT * FROM " + FriendsTable + " frens" +
                 "    WHERE frens.USER2_ID = 500 or frens.USER1_ID = 500" +
