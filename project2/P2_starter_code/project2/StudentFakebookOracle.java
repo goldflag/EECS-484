@@ -558,6 +558,7 @@ CurrentCitiesTable HometownCitiesTable
                     "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
                     "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID");
 
+                System.out.println(monke);
                 MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
                 while (monke2.next()) {
                     PhotoInfo p = new PhotoInfo(monke.getLong(1), monke.getLong(2), monke.getString(3), monke.getString(4));
