@@ -546,6 +546,7 @@ CurrentCitiesTable HometownCitiesTable
 
                 while (monke2.next()) {
                     PhotoInfo p = new PhotoInfo(monke.getLong(1), monke.getLong(2), monke.getString(3), monke.getString(4));
+                    System.out.println(p);
                     mp.addSharedPhoto(p);
                 }
                 results.add(mp);
