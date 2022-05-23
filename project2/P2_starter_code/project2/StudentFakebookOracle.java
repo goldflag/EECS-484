@@ -288,7 +288,7 @@ CurrentCitiesTable HometownCitiesTable
                 "ON users.USER_ID = current_city.USER_ID " +
                 "INNER JOIN " + HometownCitiesTable + " hometown_city " +
                 "ON users.USER_ID = hometown_city.USER_ID " + 
-                "WHERE hometown_city.HOMETOWN_CITY_sytID != current_city.CURRENT_CITY_ID " + 
+                "WHERE hometown_city.HOMETOWN_CITY_ID != current_city.CURRENT_CITY_ID " + 
                 "ORDER BY users.USER_ID asc");  
 
             while (rst.next()) {
