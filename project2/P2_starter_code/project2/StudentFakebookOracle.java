@@ -529,29 +529,13 @@ CurrentCitiesTable HometownCitiesTable
                 MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
                 Statement ree = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly);
 
-System.out.println(                    "WITH query as ( " +
-                    "    SELECT monke.TAG_PHOTO_ID FROM ( " +
-                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
-                    "    ) monke " +
-                    "    INNER JOIN " + TagsTable + " tags " +
-                    "    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID " +
-                    "), " +
-                    "query2 as ( " +
-                    "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM " + PhotosTable + " photos " +
-                    "    JOIN query ON query.TAG_PHOTO_ID = photos.PHOTO_ID " +
-                    ") " +
-                    "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
-                    "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID");
-
-                    System.out.println("\n\n\n\n");
-
                 ResultSet monke2 = ree.executeQuery(
                     "WITH query as ( " +
                     "    SELECT monke.TAG_PHOTO_ID FROM ( " +
-                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
+                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = " + monke.getLong(1) + " " +
                     "    ) monke " +
                     "    INNER JOIN " + TagsTable + " tags " +
-                    "    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID " +
+                    "    ON tags.TAG_SUBJECT_ID = " + monke.getLong(5) + " AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID " +
                     "), " +
                     "query2 as ( " +
                     "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM " + PhotosTable + " photos " +
