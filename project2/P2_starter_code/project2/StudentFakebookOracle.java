@@ -377,7 +377,8 @@ CurrentCitiesTable HometownCitiesTable
             while (rst.next()) {
                 // System.out.println(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
                 PhotoInfo p = new PhotoInfo(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
-                ResultSet monke = stmt.executeQuery(
+                Statement ree = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly);
+                ResultSet monke = ree.executeQuery(
                     "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
                     "INNER JOIN " + UsersTable + " users " +
                     "ON users.USER_ID = tags.TAG_SUBJECT_ID  " +
@@ -552,8 +553,8 @@ CurrentCitiesTable HometownCitiesTable
                 System.out.println(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
                 System.out.println(new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7)));
                 MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
-
-                ResultSet monke2 = stmt.executeQuery(
+                Statement ree = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly);
+                ResultSet monke2 = ree.executeQuery(
                     "WITH query as ( " +
                     "    SELECT monke.TAG_PHOTO_ID FROM ( " +
                     "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
