@@ -230,7 +230,6 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 results.add(u1);
                 results.add(u2);
 
-
                 SELECT USER_ID, FIRST_NAME, LAST_NAME FROM project2.PUBLIC_USERS users 
                 LEFT JOIN project2.PUBLIC_FRIENDS friends 
                 ON users.USER_ID = friends.USER1_ID OR users.USER_ID = friends.USER2_ID 
@@ -326,14 +325,6 @@ CurrentCitiesTable HometownCitiesTable
                 tp.addTaggedUser(u3);
                 results.add(tp);
 
-                WITH first AS (
-                    SELECT * FROM (
-                        SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM project2.PUBLIC_TAGS GROUP BY TAG_PHOTO_ID
-                    ) monke WHERE ROWNUM <= 10 ORDER BY monke.ct DESC
-                )
-                SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM first
-                JOIN ON project2.PUBLIC_PHOTOS photos
-                WHERE first.TAG_PHOTO_ID = photos.PHOTO_ID;
 
                 WITH first AS (
                     SELECT * FROM (
@@ -377,6 +368,7 @@ CurrentCitiesTable HometownCitiesTable
                 "FROM second " +
                 "INNER JOIN " + AlbumsTable + " albums " +
                 "ON albums.ALBUM_ID = second.ALBUM_ID";
+            System.out.println(num);
             System.out.println(query);
 
             ResultSet rst = stmt.executeQuery(query);  
@@ -425,6 +417,9 @@ CurrentCitiesTable HometownCitiesTable
     //            the containing album of each photo in which they are tagged together
     public FakebookArrayList<MatchPair> matchMaker(int num, int yearDiff) throws SQLException {
         FakebookArrayList<MatchPair> results = new FakebookArrayList<MatchPair>("\n");
+
+        System.out.println(num);
+        System.out.println(yearDiff);
         
         try (Statement stmt = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly)) {
             /*
@@ -436,7 +431,50 @@ CurrentCitiesTable HometownCitiesTable
                 PhotoInfo p = new PhotoInfo(167, 309, "www.photolink.net", "Tragedy");
                 mp.addSharedPhoto(p);
                 results.add(mp);
+
+                INNER JOIN project2.PUBLIC_TAGS tags1
+                ON tags1.TAG_SUBJECT_ID = user1.USER_ID
+                INNER JOIN project2.PUBLIC_TAGS tags2
+                ON tags2.TAG_SUBJECT_ID = user2.USER_ID
+                INNER JOIN project2.PUBLIC_TAGS tags3
+                ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID 
+
+                SELECT 
+                    user1.USER_ID, 
+                    user2.USER_ID,
+                    tags1.TAG_PHOTO_ID,
+                    tags2.TAG_PHOTO_ID,
+                    tags3.TAG_PHOTO_ID
+                FROM project2.PUBLIC_USERS user1
+                INNER JOIN project2.PUBLIC_USERS user2
+                ON user1.gender = user2.gender AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= 10
+                INNER JOIN project2.PUBLIC_TAGS tags1
+                ON tags1.TAG_SUBJECT_ID = user1.USER_ID
+                INNER JOIN project2.PUBLIC_TAGS tags2
+                ON tags2.TAG_SUBJECT_ID = user2.USER_ID
+                INNER JOIN project2.PUBLIC_TAGS tags3
+                ON tags3.TAG_PHOTO_ID = tags1.TAG_PHOTO_ID AND tags3.TAG_PHOTO_ID = tags2.TAG_PHOTO_ID 
+                FULL OUTER JOIN project2.PUBLIC_FRIENDS friends
+                ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
+                WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL
+                GROUP BY user1.USER_ID, user2.USER_ID, tags1.TAG_PHOTO_ID, tags2.TAG_PHOTO_ID, tags3.TAG_PHOTO_ID
+                ORDER BY user1.USER_ID, user2.USER_ID ASC;
+
+                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 764 AND USER2_ID = 777;
+                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 734;
+                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 734 AND USER2_ID = 738;
+                select * from project2.PUBLIC_FRIENDS WHERE USER1_ID = 725 AND USER2_ID = 726;
+                
             */
+
+            // ResultSet monke = stmt.executeQuery(
+            //     "SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM " + TagsTable + " tags " +
+            //     "INNER JOIN " + UsersTable + " users " +
+            //     "ON users.USER_ID = tags.TAG_SUBJECT_ID  " +
+            //     "WHERE tags.TAG_PHOTO_ID = '"+ rst.getInt(1) + "' " +
+            //     "ORDER by users.USER_ID ASC"
+            // );
+
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
