@@ -529,20 +529,6 @@ CurrentCitiesTable HometownCitiesTable
                 System.out.println(u2);
 
 
-                System.out.println(                    "WITH query as ( " +
-                    "    SELECT monke.TAG_PHOTO_ID FROM ( " +
-                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
-                    "    ) monke " +
-                    "    INNER JOIN " + TagsTable + " tags " +
-                    "    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID            " +
-                    "), " +
-                    "query2 as ( " +
-                    "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM " + PhotosTable + " photos " +
-                    "    JOIN query ON query.TAG_PHOTO_ID = photos.PHOTO_ID " +
-                    ") " +
-                    "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
-                    "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID");
-
                 ResultSet monke2 = stmt.executeQuery(
                     "WITH query as ( " +
                     "    SELECT monke.TAG_PHOTO_ID FROM ( " +
@@ -558,6 +544,20 @@ CurrentCitiesTable HometownCitiesTable
                     "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
                     "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID"
                 );
+
+                System.out.println(                    "WITH query as ( " +
+                    "    SELECT monke.TAG_PHOTO_ID FROM ( " +
+                    "        SELECT TAG_PHOTO_ID FROM " + TagsTable + " WHERE TAG_SUBJECT_ID = 182 " +
+                    "    ) monke " +
+                    "    INNER JOIN " + TagsTable + " tags " +
+                    "    ON tags.TAG_SUBJECT_ID = 561 AND monke.TAG_PHOTO_ID = tags.TAG_PHOTO_ID            " +
+                    "), " +
+                    "query2 as ( " +
+                    "    SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM " + PhotosTable + " photos " +
+                    "    JOIN query ON query.TAG_PHOTO_ID = photos.PHOTO_ID " +
+                    ") " +
+                    "SELECT query2.PHOTO_ID, query2.ALBUM_ID, query2.PHOTO_LINK, albums.ALBUM_NAME FROM query2 " +
+                    "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID");
 
                 while (monke2.next()) {
                     PhotoInfo p = new PhotoInfo(monke.getLong(1), monke.getLong(2), monke.getString(3), monke.getString(4));
