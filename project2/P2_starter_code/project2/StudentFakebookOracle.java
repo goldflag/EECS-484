@@ -687,6 +687,8 @@ CurrentCitiesTable HometownCitiesTable
                     users.DAY_OF_BIRTH; 
 
             */
+            stmt.executeUpdate("DROP VIEW FRENS ");
+
             System.out.println(                "CREATE VIEW FRENS AS " +
                 "SELECT " +
                 "    users.USER_ID, " +
