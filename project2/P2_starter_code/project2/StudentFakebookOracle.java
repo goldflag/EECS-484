@@ -524,8 +524,6 @@ CurrentCitiesTable HometownCitiesTable
                 UserInfo u1 = new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3));
                 UserInfo u2 = new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7));
 
-                System.out.println(new UserInfo(monke.getLong(1), monke.getString(2), monke.getString(3)));
-                System.out.println(new UserInfo(monke.getLong(5), monke.getString(6), monke.getString(7)));
                 MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
                 Statement ree = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly);
 
@@ -606,8 +604,45 @@ CurrentCitiesTable HometownCitiesTable
                 info.addState("Hawaii");
                 info.addState("New Hampshire");
                 return info;
+
+
+
+                SELECT * FROM (
+                    SELECT COUNT(cities.STATE_NAME) AS COUNT, cities.STATE_NAME FROM project2.PUBLIC_USER_EVENTS events
+                    JOIN project2.PUBLIC_CITIES cities 
+                    ON cities.CITY_ID = events.EVENT_CITY_ID
+                    GROUP BY cities.STATE_NAME
+                ) ORDER BY count desc;
             */
-            return new EventStateInfo(-1);                // placeholder for compilation
+
+
+            ResultSet monke = stmt.executeQuery(
+                "SELECT * FROM ( " +
+                "    SELECT COUNT(cities.STATE_NAME) AS COUNT, cities.STATE_NAME FROM " + EventsTable + " events " +
+                "    JOIN " + CitiesTable + " cities  " +
+                "    ON cities.CITY_ID = events.EVENT_CITY_ID " +
+                "    GROUP BY cities.STATE_NAME " +
+                ") ORDER BY count desc "
+            );
+
+            long eventCount = 0;
+
+            ArrayList<String> states = new ArrayList<String>();
+
+            while (monke.next()) {
+                if (eventCount != 0 && monke.getLong(1) < eventCount) {
+                    break;
+                }
+                eventCount = monke.getLong(1);
+                states.add(monke.getString(2));
+            }
+
+            EventStateInfo info = new EventStateInfo(eventCount);
+            for (String state : states) {
+                info.addState(state);
+            }
+
+            return info;
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
