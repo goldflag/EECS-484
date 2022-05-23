@@ -515,7 +515,7 @@ CurrentCitiesTable HometownCitiesTable
                     "WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL " +
                     "GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH, user1.FIRST_NAME, user1.LAST_NAME, user2.FIRST_NAME, user2.LAST_NAME, tags1.TAG_PHOTO_ID " +
                     "ORDER BY user1.USER_ID, user2.USER_ID ASC " +
-                ") WHERE ROWNUM <= " + num)
+                ") WHERE ROWNUM <= " + num);
 
             ResultSet monke = stmt.executeQuery(
                 "SELECT * FROM (" +
