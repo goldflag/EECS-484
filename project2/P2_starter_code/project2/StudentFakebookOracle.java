@@ -527,6 +527,7 @@ CurrentCitiesTable HometownCitiesTable
                 System.out.println(u1);
                 System.out.println(u2);
 
+                MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
 
                 // ResultSet monke2 = stmt.executeQuery(
                 //     "WITH query as ( " +
@@ -559,7 +560,6 @@ CurrentCitiesTable HometownCitiesTable
                 //     "JOIN " + AlbumsTable + " albums ON albums.ALBUM_ID = query2.ALBUM_ID");
 
                 // System.out.println(monke);
-                // MatchPair mp = new MatchPair(u1, monke.getLong(4), u2, monke.getLong(8));
                 // while (monke2.next()) {
                 //     PhotoInfo p = new PhotoInfo(monke.getLong(1), monke.getLong(2), monke.getString(3), monke.getString(4));
                 //     System.out.println(p);
