@@ -343,7 +343,8 @@ CurrentCitiesTable HometownCitiesTable
                     second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME
                 FROM second
                 INNER JOIN project2.PUBLIC_ALBUMS albums
-                ON albums.ALBUM_ID = second.ALBUM_ID;
+                ON albums.ALBUM_ID = second.ALBUM_ID
+                ORDER BY second.PHOTO_ID ASC;
 
                 SELECT users.USER_ID, users.FIRST_NAME, users.LAST_NAME FROM project2.PUBLIC_TAGS tags 
                 INNER JOIN project2.PUBLIC_USERS users 
@@ -368,7 +369,8 @@ CurrentCitiesTable HometownCitiesTable
                 "    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME " +
                 "FROM second " +
                 "INNER JOIN " + AlbumsTable + " albums " +
-                "ON albums.ALBUM_ID = second.ALBUM_ID";
+                "ON albums.ALBUM_ID = second.ALBUM_ID " +
+                "ORDER BY second.PHOTO_ID ASC";
             System.out.println(num);
             System.out.println(query);
 
