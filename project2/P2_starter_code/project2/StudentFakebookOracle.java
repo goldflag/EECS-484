@@ -371,11 +371,8 @@ CurrentCitiesTable HometownCitiesTable
                 "INNER JOIN " + AlbumsTable + " albums " +
                 "ON albums.ALBUM_ID = second.ALBUM_ID " + 
                 "ORDER BY second.PHOTO_ID ASC";
-            System.out.println(num);
-            System.out.println(query);
 
             ResultSet rst = stmt.executeQuery(query);  
-
 
             while (rst.next()) {
                 // System.out.println(rst.getInt(1), rst.getInt(2), rst.getString(3), rst.getString(4));
@@ -422,8 +419,6 @@ CurrentCitiesTable HometownCitiesTable
     public FakebookArrayList<MatchPair> matchMaker(int num, int yearDiff) throws SQLException {
         FakebookArrayList<MatchPair> results = new FakebookArrayList<MatchPair>("\n");
 
-        System.out.println(num);
-        System.out.println(yearDiff);
         
         try (Statement stmt = oracle.createStatement(FakebookOracleConstants.AllScroll, FakebookOracleConstants.ReadOnly)) {
             /*
@@ -548,7 +543,6 @@ CurrentCitiesTable HometownCitiesTable
 
                 while (monke2.next()) {
                     PhotoInfo p = new PhotoInfo(monke2.getLong(1), monke2.getLong(2), monke2.getString(3), monke2.getString(4));
-                    System.out.println(p);
                     mp.addSharedPhoto(p);
                 }
                 results.add(mp);
