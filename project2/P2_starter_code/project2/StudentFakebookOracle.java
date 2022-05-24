@@ -369,7 +369,8 @@ CurrentCitiesTable HometownCitiesTable
                 "    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME " +
                 "FROM second " +
                 "INNER JOIN " + AlbumsTable + " albums " +
-                "ON albums.ALBUM_ID = second.ALBUM_ID ";
+                "ON albums.ALBUM_ID = second.ALBUM_ID " + 
+                "ORDER BY second.PHOTO_ID ASC";
             System.out.println(num);
             System.out.println(query);
 
