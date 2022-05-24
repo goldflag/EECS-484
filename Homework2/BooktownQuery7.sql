@@ -1,0 +1,5 @@
+SELECT DISTINCT B.Title, SUM(E.Pages) AS Total_Pages
+FROM Books B, Editions E
+WHERE B.Book_ID = E.Book_ID
+GROUP BY B.Title
+ORDER BY Total_Pages DESC;
