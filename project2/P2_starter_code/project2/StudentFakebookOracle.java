@@ -331,8 +331,8 @@ CurrentCitiesTable HometownCitiesTable
                     SELECT * FROM (
                         SELECT * FROM (
                             SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM project2.PUBLIC_TAGS GROUP BY TAG_PHOTO_ID
-                        ) ORDER BY ct DESC
-                    ) monke WHERE ROWNUM <= 10
+                        ) ORDER BY ct DESC, TAG_PHOTO_ID asc
+                    ) monke WHERE ROWNUM <= 5
                 ),
                 second AS (
                     SELECT photos.PHOTO_ID, photos.ALBUM_ID, photos.PHOTO_LINK FROM first
@@ -357,7 +357,7 @@ CurrentCitiesTable HometownCitiesTable
                 "    SELECT * FROM ( " +
                 "        SELECT * FROM ( " +
                 "            SELECT COUNT(TAG_PHOTO_ID) as ct, TAG_PHOTO_ID FROM " + TagsTable + " GROUP BY TAG_PHOTO_ID " +
-                "        ) ORDER BY ct DESC " +
+                "        ) ORDER BY ct DESC, TAG_PHOTO_ID asc " +
                 "    ) monke WHERE ROWNUM <= " + num + " " +
                 "), " +
                 "second AS ( " +
@@ -369,8 +369,7 @@ CurrentCitiesTable HometownCitiesTable
                 "    second.PHOTO_ID, second.ALBUM_ID, second.PHOTO_LINK, albums.ALBUM_NAME " +
                 "FROM second " +
                 "INNER JOIN " + AlbumsTable + " albums " +
-                "ON albums.ALBUM_ID = second.ALBUM_ID " +
-                "ORDER BY second.PHOTO_ID ASC";
+                "ON albums.ALBUM_ID = second.ALBUM_ID ";
             System.out.println(num);
             System.out.println(query);
 
