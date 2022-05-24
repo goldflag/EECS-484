@@ -754,7 +754,58 @@ CurrentCitiesTable HometownCitiesTable
                 UserInfo u2 = new UserInfo(17231, "Kourtney", "Kardashian");
                 SiblingInfo si = new SiblingInfo(u1, u2);
                 results.add(si);
+
+
+                SELECT 
+                    user1.USER_ID AS USER_ID1, 
+                    user1.FIRST_NAME AS USER1_FIRST_NAME, 
+                    user1.LAST_NAME AS USER1_LAST_NAME, 
+                    user2.USER_ID AS USER_ID2,
+                    user2.FIRST_NAME AS USER2_FIRST_NAME,
+                    user2.LAST_NAME AS USER2_LAST_NAME
+                FROM project2.PUBLIC_USERS user1
+                INNER JOIN project2.PUBLIC_USERS user2
+                ON user1.LAST_NAME = user2.LAST_NAME AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= 10
+                JOIN project2.PUBLIC_FRIENDS friends
+                ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
+                JOIN project2.PUBLIC_USER_HOMETOWN_CITY hometowns1
+                ON user1.USER_ID = hometowns1.USER_ID
+                JOIN project2.PUBLIC_USER_HOMETOWN_CITY hometowns2
+                ON user2.USER_ID = hometowns2.USER_ID
+                WHERE hometowns2.HOMETOWN_CITY_ID = hometowns1.HOMETOWN_CITY_ID
+                GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH, user1.FIRST_NAME, user1.LAST_NAME, user2.FIRST_NAME, user2.LAST_NAME
+                ORDER BY user1.USER_ID, user2.USER_ID ASC
             */
+
+
+            ResultSet res = stmt.executeQuery("
+                SELECT 
+                    user1.USER_ID AS USER_ID1, 
+                    user1.FIRST_NAME AS USER1_FIRST_NAME, 
+                    user1.LAST_NAME AS USER1_LAST_NAME, 
+                    user2.USER_ID AS USER_ID2,
+                    user2.FIRST_NAME AS USER2_FIRST_NAME,
+                    user2.LAST_NAME AS USER2_LAST_NAME
+                FROM project2.PUBLIC_USERS user1
+                INNER JOIN project2.PUBLIC_USERS user2
+                ON user1.LAST_NAME = user2.LAST_NAME AND user1.USER_ID < user2.USER_ID AND ABS(user1.YEAR_OF_BIRTH - user2.YEAR_OF_BIRTH) <= 10
+                JOIN project2.PUBLIC_FRIENDS friends
+                ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
+                JOIN project2.PUBLIC_USER_HOMETOWN_CITY hometowns1
+                ON user1.USER_ID = hometowns1.USER_ID
+                JOIN project2.PUBLIC_USER_HOMETOWN_CITY hometowns2
+                ON user2.USER_ID = hometowns2.USER_ID
+                WHERE hometowns2.HOMETOWN_CITY_ID = hometowns1.HOMETOWN_CITY_ID
+                GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH, user1.FIRST_NAME, user1.LAST_NAME, user2.FIRST_NAME, user2.LAST_NAME
+                ORDER BY user1.USER_ID, user2.USER_ID ASC
+            ");
+
+            while (res.next()) {
+                UserInfo u1 = new UserInfo(res.getLong(1), res.getString(2), res.getString(3));
+                UserInfo u2 = new UserInfo(res.getLong(4), res.getString(5), res.getString(6));
+                SiblingInfo si = new SiblingInfo(u1, u2);
+                results.add(si);
+            }
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
