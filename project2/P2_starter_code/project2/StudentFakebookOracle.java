@@ -203,6 +203,7 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 info.addCommonName(i);
             }
 
+            stmt.close();  
             return info;
         }
         catch (SQLException e) {
@@ -246,11 +247,11 @@ public final class StudentFakebookOracle extends FakebookOracle {
                 results.add(new UserInfo(rst.getLong(1), rst.getString(2), rst.getString(3)));
             }
 
+            stmt.close();  
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-
         return results;
     }
     
@@ -293,11 +294,11 @@ CurrentCitiesTable HometownCitiesTable
             while (rst.next()) {
                 results.add(new UserInfo(rst.getLong(1), rst.getString(2), rst.getString(3)));
             }
+            stmt.close();  
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
         return results;
     }
     
@@ -395,12 +396,12 @@ CurrentCitiesTable HometownCitiesTable
 
                 results.add(tp);
             }
+            stmt.close();  
 
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
         return results;
     }
     
@@ -550,12 +551,11 @@ CurrentCitiesTable HometownCitiesTable
                 }
                 results.add(mp);
             }   
-
+            stmt.close();  
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
         return results;
     }
     
@@ -580,12 +580,33 @@ CurrentCitiesTable HometownCitiesTable
                 UsersPair up = new UsersPair(u1, u2);
                 up.addSharedFriend(u3);
                 results.add(up);
+
+                SELECT * FROM (
+                    SELECT 
+                        user1.USER_ID AS USER_ID1, 
+                        user1.FIRST_NAME AS USER1_FIRST_NAME, 
+                        user1.LAST_NAME AS USER1_LAST_NAME, 
+                        user2.USER_ID AS USER_ID2,
+                        user2.FIRST_NAME AS USER2_FIRST_NAME,
+                        user2.LAST_NAME AS USER2_LAST_NAME
+                    FROM project2.PUBLIC_USERS user1
+                    INNER JOIN project2.PUBLIC_USERS user2
+                    ON user1.USER_ID < user2.USER_ID
+                    FULL OUTER JOIN project2.PUBLIC_FRIENDS friends
+                    ON user1.USER_ID = friends.USER1_ID AND user2.USER_ID = friends.USER2_ID 
+                    WHERE friends.USER1_ID IS NULL AND friends.USER2_ID IS NULL
+                    GROUP BY user1.USER_ID, user2.USER_ID, user1.YEAR_OF_BIRTH, user2.YEAR_OF_BIRTH, user1.FIRST_NAME, user1.LAST_NAME, user2.FIRST_NAME, user2.LAST_NAME
+                    ORDER BY user1.USER_ID, user2.USER_ID ASC
+                )
+                JOIN ON project2.PUBLIC_FRIENDS friends
+                WHERE 
+
             */
+            stmt.close();  
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
         return results;
     }
     
@@ -641,7 +662,7 @@ CurrentCitiesTable HometownCitiesTable
             for (String state : states) {
                 info.addState(state);
             }
-
+            stmt.close();  
             return info;
         }
         catch (SQLException e) {
@@ -726,7 +747,7 @@ CurrentCitiesTable HometownCitiesTable
             }
 
             stmt.executeUpdate("DROP VIEW FRENS ");
-
+            stmt.close();  
             return new AgeInfo(young, old);
         }
         catch (SQLException e) {
@@ -806,11 +827,11 @@ CurrentCitiesTable HometownCitiesTable
                 SiblingInfo si = new SiblingInfo(u1, u2);
                 results.add(si);
             }
+            stmt.close();  
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        
         return results;
     }
     
