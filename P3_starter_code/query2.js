@@ -8,9 +8,13 @@
 */
 
 function unwind_friends(dbname){
-    db = db.getSiblingDB(dbname);
-    // TODO: unwind friends
-
     
-    // returns nothing. It creates a collection instead as specified above.
+  db = db.getSiblingDB(dbname);
+  
+  //Unwind Friends, use $project to pass along user_id & friends, $out to flat_users
+  
+  db.users.aggregate( [ { $unwind: "$friends" }, {$project : {user_id : 1, friends : 1, _id : 0} }, {$out : "flat_users"} ] );
+    
+  
+
 }
