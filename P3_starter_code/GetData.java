@@ -72,14 +72,32 @@ public class GetData{
 
     @SuppressWarnings("unchecked")
     public JSONArray toJSON() throws SQLException{ 
-
-    	JSONArray users_info = new JSONArray();
+	
+	JSONArray users_info = new JSONArray();
+	    
+	try (Statement oStmt = oracleConnection.createStatement()){
+	
+	
+	
+		ResultSet rSet = oStmt.executeQuery("SELECT user_id, first_name, last_name, gender, year_of_birth,")
+	
+	
+	}
 		
-	// Your implementation goes here....		
+	
+	    
+	  
+		
+			
     	
 		
 		return users_info;
     }
+	
+	
+	
+	
+	
 
     // This outputs to a file "output.json"
     public void writeJSON(JSONArray users_info) {
