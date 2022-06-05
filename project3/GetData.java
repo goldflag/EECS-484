@@ -146,7 +146,7 @@ public class GetData{
                 "ON current_city.CURRENT_CITY_ID = cityc.CITY_ID  \n" +
                 "INNER JOIN PROJECT3.PUBLIC_CITIES cityh \n" +
                 "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
-                "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
+                "LEFT JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
                 "ON frens.USER1_ID = users.USER_ID  \n" +
                 "ORDER BY users.USER_ID asc ";
 
