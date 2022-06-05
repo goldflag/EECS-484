@@ -173,10 +173,15 @@ public class GetData{
                     monke.put("first_name", rs.getString("FIRST_NAME"));
                     monke.put("last_name", rs.getString("LAST_NAME"));
                     JSONObject hometown = new JSONObject();
-                    hometown.put("country", rs.getString("USER_ID"));
-                    hometown.put("city", rs.getString("USER_ID"));
-                    hometown.put("state", rs.getString("USER_ID"));
+                    hometown.put("country", rs.getString("COUNTRY_NAME"));
+                    hometown.put("city", rs.getString("CITY_NAME"));
+                    hometown.put("state", rs.getString("STATE_NAME"));
                     monke.put("hometown", hometown);
+                    JSONObject current = new JSONObject();
+                    current.put("country", rs.getString("COUNTRY_NAME"));
+                    current.put("city", rs.getString("CITY_NAME"));
+                    current.put("state", rs.getString("STATE_NAME"));
+                    monke.put("current", current);
                     System.out.println(rs.getInt("USER_ID"));
                 }
                 frens.put(rs.getInt("fren_ID"));
