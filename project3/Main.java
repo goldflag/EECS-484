@@ -10,8 +10,8 @@ import org.json.JSONArray;
 public class Main {
 	
     static String dataType = "PUBLIC"; 
-    static String oracleUserName = "uniqname"; //replace with your Oracle account name
-    static String password = "password"; //replace with your Oracle password
+    static String oracleUserName = "billyang"; //replace with your Oracle account name
+    static String password = "12345noob"; //replace with your Oracle password
 	
 
     public static void main(String[] args) {
