@@ -85,7 +85,7 @@ public class GetData{
             ON users.USER_ID = current.USER_ID;
 
 
-
+            SET MARKUP CSV ON;
             SELECT 
                 users.USER_ID, 
                 users.FIRST_NAME, 
@@ -110,9 +110,9 @@ public class GetData{
             ON current_city.CURRENT_CITY_ID = cityc.CITY_ID 
             INNER JOIN PROJECT3.PUBLIC_CITIES cityh
             ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID 
-            INNER JOIN PROJECT3.PUBLIC_FRIENDS frens 
+            LEFT JOIN PROJECT3.PUBLIC_FRIENDS frens 
             ON frens.USER1_ID = users.USER_ID 
-            WHERE users.USER_ID = 585
+            WHERE users.USER_ID = 793
             ORDER BY users.USER_ID asc;
 
             DESC PROJECT3.PUBLIC_CITIES;
@@ -158,7 +158,7 @@ public class GetData{
             while (rs.next()) {
                 if (rs.getInt("USER_ID") != currentId ) {
                     if (currentId != -1) {
-                        monke.put("frens", frens);
+                        monke.put("friends", frens);
                         users_info.put(monke);
                         monke = new JSONObject();
                         frens = new JSONArray();
@@ -182,9 +182,10 @@ public class GetData{
                     current.put("city", rs.getString("CITY_NAME"));
                     current.put("state", rs.getString("STATE_NAME"));
                     monke.put("current", current);
-                    System.out.println(rs.getInt("USER_ID"));
                 }
-                frens.put(rs.getInt("fren_ID"));
+                if (rs.getInt("fren_ID") > 0) {
+                    frens.put(rs.getInt("fren_ID"));
+                }
             }
             monke.put("friends", frens);
             users_info.put(monke);
