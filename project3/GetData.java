@@ -173,14 +173,14 @@ public class GetData{
                     monke.put("first_name", rs.getString("FIRST_NAME"));
                     monke.put("last_name", rs.getString("LAST_NAME"));
                     JSONObject hometown = new JSONObject();
-                    hometown.put("country", rs.getString("HOMETOWN_CITY_NAME"));
-                    hometown.put("city", rs.getString("HOMETOWN_STATE_NAME"));
-                    hometown.put("state", rs.getString("HOMETOWN_COUNTRY_NAME"));
+                    hometown.put("city", rs.getString("HOMETOWN_CITY_NAME"));
+                    hometown.put("state", rs.getString("HOMETOWN_STATE_NAME"));
+                    hometown.put("country", rs.getString("HOMETOWN_COUNTRY_NAME"));
                     monke.put("hometown", hometown);
                     JSONObject current = new JSONObject();
-                    current.put("country", rs.getString("CURRENT_CITY_NAME"));
-                    current.put("city", rs.getString("CURRENT_STATE_NAME"));
-                    current.put("state", rs.getString("CURRENT_COUNTRY_NAME"));
+                    current.put("city", rs.getString("CURRENT_CITY_NAME"));
+                    current.put("state", rs.getString("CURRENT_STATE_NAME"));
+                    current.put("country", rs.getString("CURRENT_COUNTRY_NAME"));
                     monke.put("current", current);
                 }
                 if (rs.getInt("fren_ID") > 0) {
