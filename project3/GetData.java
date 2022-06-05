@@ -180,7 +180,7 @@ public class GetData{
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                System.out.println(rs);
+                System.out.println(rs.getInt("USER_ID"));
             }
             // while (rs.next()) {
             //     String coffeeName = rs.getString("COF_NAME");
