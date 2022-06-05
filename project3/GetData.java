@@ -148,9 +148,8 @@ public class GetData{
                 "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
                 "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
                 "ON frens.USER1_ID = users.USER_ID  \n" +
-                "WHERE users.USER_ID != 585 \n" +
+                "WHERE users.USER_ID = 585 \n" +
                 "ORDER BY users.USER_ID asc ";
-            System.out.println(query);
 
             ResultSet rs = stmt.executeQuery(query);
 
