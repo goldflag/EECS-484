@@ -166,10 +166,11 @@ public class GetData{
                     }
                     currentId = rs.getInt("USER_ID");
                     monke = new JSONObject();
-                    monke.put("gender", rs.getString("USER_ID"));
-                    monke.put("MOB", rs.getString("MONTH_OF_BIRTH"));
-                    monke.put("DOB", rs.getString("DAY_OF_BIRTH"));
-                    monke.put("YOB", rs.getString("YEAR_OF_BIRTH"));
+                    monke.put("user_id", rs.getInt("USER_ID"));
+                    monke.put("gender", rs.getString("GENDER"));
+                    monke.put("MOB", rs.getInt("MONTH_OF_BIRTH"));
+                    monke.put("DOB", rs.getInt("DAY_OF_BIRTH"));
+                    monke.put("YOB", rs.getInt("YEAR_OF_BIRTH"));
                     monke.put("first_name", rs.getString("FIRST_NAME"));
                     monke.put("last_name", rs.getString("LAST_NAME"));
                     JSONObject hometown = new JSONObject();
