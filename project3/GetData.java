@@ -134,47 +134,47 @@ public class GetData{
          */
 
         try (Statement stmt = oracleConnection.createStatement()) {
-            String query = "SELECT  " +
-                "    users.USER_ID,  " +
-                "    users.FIRST_NAME,  " +
-                "    users.LAST_NAME,  " +
-                "    users.YEAR_OF_BIRTH ,  " +
-                "    users.MONTH_OF_BIRTH,  " +
-                "    users.DAY_OF_BIRTH,  " +
-                "    users.GENDER, " +
-                "    cityc.CITY_NAME, " +
-                "    cityc.STATE_NAME, " +
-                "    cityc.COUNTRY_NAME, " +
-                "    cityc.CITY_NAME, " +
-                "    cityc.STATE_NAME, " +
-                "    cityc.COUNTRY_NAME, " +
-                "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 " +
-                "FROM project3.PUBLIC_USERS users  " +
-                "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  " +
-                "ON users.USER_ID = current_city.USER_ID  " +
-                "INNER JOIN project3.PUBLIC_USER_HOMETOWN_CITIES hometown_city " + 
-                "ON users.USER_ID = hometown_city.USER_ID  " +
-                "INNER JOIN PROJECT3.PUBLIC_CITIES cityc  " +
-                "ON current_city.CURRENT_CITY_ID = cityc.CITY_ID  " +
-                "INNER JOIN PROJECT3.PUBLIC_CITIES cityh " +
-                "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  " +
-                "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  " +
-                "ON frens.USER1_ID = users.USER_ID  " +
-                "WHERE users.USER_ID = 585 " +
-                "GROUP BY  " +
-                "    users.USER_ID,  " +
-                "    users.FIRST_NAME,  " +
-                "    users.LAST_NAME,  " +
-                "    users.YEAR_OF_BIRTH ,  " +
-                "    users.MONTH_OF_BIRTH,  " +
-                "    users.DAY_OF_BIRTH,  " +
-                "    users.GENDER, " +
-                "    cityc.CITY_NAME, " +
-                "    cityc.STATE_NAME, " +
-                "    cityc.COUNTRY_NAME, " +
-                "    cityc.CITY_NAME, " +
-                "    cityc.STATE_NAME, " +
-                "    cityc.COUNTRY_NAME " +
+            String query = "SELECT  \n" +
+                "    users.USER_ID,  \n" +
+                "    users.FIRST_NAME,  \n" +
+                "    users.LAST_NAME,  \n" +
+                "    users.YEAR_OF_BIRTH ,  \n" +
+                "    users.MONTH_OF_BIRTH,  \n" +
+                "    users.DAY_OF_BIRTH,  \n" +
+                "    users.GENDER, \n" +
+                "    cityc.CITY_NAME, \n" +
+                "    cityc.STATE_NAME, \n" +
+                "    cityc.COUNTRY_NAME, \n" +
+                "    cityc.CITY_NAME, \n" +
+                "    cityc.STATE_NAME, \n" +
+                "    cityc.COUNTRY_NAME, \n" +
+                "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 \n" +
+                "FROM project3.PUBLIC_USERS users  \n" +
+                "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  \n" +
+                "ON users.USER_ID = current_city.USER_ID  \n" +
+                "INNER JOIN project3.PUBLIC_USER_HOMETOWN_CITIES hometown_city \n" + 
+                "ON users.USER_ID = hometown_city.USER_ID  \n" +
+                "INNER JOIN PROJECT3.PUBLIC_CITIES cityc  \n" +
+                "ON current_city.CURRENT_CITY_ID = cityc.CITY_ID  \n" +
+                "INNER JOIN PROJECT3.PUBLIC_CITIES cityh \n" +
+                "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
+                "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
+                "ON frens.USER1_ID = users.USER_ID  \n" +
+                "WHERE users.USER_ID = 585 \n" +
+                "GROUP BY  \n" +
+                "    users.USER_ID,  \n" +
+                "    users.FIRST_NAME,  \n" +
+                "    users.LAST_NAME,  \n" +
+                "    users.YEAR_OF_BIRTH ,  \n" +
+                "    users.MONTH_OF_BIRTH,  \n" +
+                "    users.DAY_OF_BIRTH,  \n" +
+                "    users.GENDER, \n" +
+                "    cityc.CITY_NAME, \n" +
+                "    cityc.STATE_NAME, \n" +
+                "    cityc.COUNTRY_NAME, \n" +
+                "    cityc.CITY_NAME, \n" +
+                "    cityc.STATE_NAME, \n" +
+                "    cityc.COUNTRY_NAME \n" +
                 "ORDER BY users.USER_ID asc ";
             System.out.println(query);
 
