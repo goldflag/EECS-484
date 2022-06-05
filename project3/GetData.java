@@ -148,7 +148,6 @@ public class GetData{
                 "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
                 "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
                 "ON frens.USER1_ID = users.USER_ID  \n" +
-                "WHERE users.USER_ID = 585 \n" +
                 "ORDER BY users.USER_ID asc ";
 
             ResultSet rs = stmt.executeQuery(query);
@@ -187,19 +186,8 @@ public class GetData{
                 }
                 frens.put(rs.getInt("fren_ID"));
             }
-            monke.put("frens", frens);
+            monke.put("friends", frens);
             users_info.put(monke);
-            // while (rs.next()) {
-            //     String coffeeName = rs.getString("COF_NAME");
-            //     int supplierID = rs.getInt("SUP_ID");
-            //     float price = rs.getFloat("PRICE");
-            //     int sales = rs.getInt("SALES");
-            //     int total = rs.getInt("TOTAL");
-            //     System.out.println(coffeeName + ", " + supplierID + ", " + price +
-            //                     ", " + sales + ", " + total);
-            //     JSONObject jsonObject = new JSONObject();
-            //     users_info.add(jsonObject);
-            // }
         }         
         catch (SQLException e) {
             System.err.println(e.getMessage());
