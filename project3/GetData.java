@@ -134,65 +134,65 @@ public class GetData{
          */
 
         try (Statement stmt = oracleConnection.createStatement()) {
-        ResultSet rs = stmt.executeQuery(
-            "SELECT  " +
-            "    users.USER_ID,  " +
-            "    users.FIRST_NAME,  " +
-            "    users.LAST_NAME,  " +
-            "    users.YEAR_OF_BIRTH ,  " +
-            "    users.MONTH_OF_BIRTH,  " +
-            "    users.DAY_OF_BIRTH,  " +
-            "    users.GENDER, " +
-            "    cityc.CITY_NAME, " +
-            "    cityc.STATE_NAME, " +
-            "    cityc.COUNTRY_NAME, " +
-            "    cityc.CITY_NAME, " +
-            "    cityc.STATE_NAME, " +
-            "    cityc.COUNTRY_NAME, " +
-            "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 " +
-            "FROM project3.PUBLIC_USERS users  " +
-            "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  " +
-            "ON users.USER_ID = current_city.USER_ID  " +
-            "INNER JOIN project3.PUBLIC_USER_HOMETOWN_CITIES hometown_city " + 
-            "ON users.USER_ID = hometown_city.USER_ID  " +
-            "INNER JOIN PROJECT3.PUBLIC_CITIES cityc  " +
-            "ON current_city.CURRENT_CITY_ID = cityc.CITY_ID  " +
-            "INNER JOIN PROJECT3.PUBLIC_CITIES cityh " +
-            "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  " +
-            "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  " +
-            "ON frens.USER1_ID = users.USER_ID  " +
-            "WHERE users.USER_ID = 585 " +
-            "GROUP BY  " +
-            "    users.USER_ID,  " +
-            "    users.FIRST_NAME,  " +
-            "    users.LAST_NAME,  " +
-            "    users.YEAR_OF_BIRTH ,  " +
-            "    users.MONTH_OF_BIRTH,  " +
-            "    users.DAY_OF_BIRTH,  " +
-            "    users.GENDER, " +
-            "    cityc.CITY_NAME, " +
-            "    cityc.STATE_NAME, " +
-            "    cityc.COUNTRY_NAME, " +
-            "    cityc.CITY_NAME, " +
-            "    cityc.STATE_NAME, " +
-            "    cityc.COUNTRY_NAME " +
-            "ORDER BY users.USER_ID asc "
-        );
+            String query = "SELECT  " +
+                "    users.USER_ID,  " +
+                "    users.FIRST_NAME,  " +
+                "    users.LAST_NAME,  " +
+                "    users.YEAR_OF_BIRTH ,  " +
+                "    users.MONTH_OF_BIRTH,  " +
+                "    users.DAY_OF_BIRTH,  " +
+                "    users.GENDER, " +
+                "    cityc.CITY_NAME, " +
+                "    cityc.STATE_NAME, " +
+                "    cityc.COUNTRY_NAME, " +
+                "    cityc.CITY_NAME, " +
+                "    cityc.STATE_NAME, " +
+                "    cityc.COUNTRY_NAME, " +
+                "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 " +
+                "FROM project3.PUBLIC_USERS users  " +
+                "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  " +
+                "ON users.USER_ID = current_city.USER_ID  " +
+                "INNER JOIN project3.PUBLIC_USER_HOMETOWN_CITIES hometown_city " + 
+                "ON users.USER_ID = hometown_city.USER_ID  " +
+                "INNER JOIN PROJECT3.PUBLIC_CITIES cityc  " +
+                "ON current_city.CURRENT_CITY_ID = cityc.CITY_ID  " +
+                "INNER JOIN PROJECT3.PUBLIC_CITIES cityh " +
+                "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  " +
+                "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  " +
+                "ON frens.USER1_ID = users.USER_ID  " +
+                "WHERE users.USER_ID = 585 " +
+                "GROUP BY  " +
+                "    users.USER_ID,  " +
+                "    users.FIRST_NAME,  " +
+                "    users.LAST_NAME,  " +
+                "    users.YEAR_OF_BIRTH ,  " +
+                "    users.MONTH_OF_BIRTH,  " +
+                "    users.DAY_OF_BIRTH,  " +
+                "    users.GENDER, " +
+                "    cityc.CITY_NAME, " +
+                "    cityc.STATE_NAME, " +
+                "    cityc.COUNTRY_NAME, " +
+                "    cityc.CITY_NAME, " +
+                "    cityc.STATE_NAME, " +
+                "    cityc.COUNTRY_NAME " +
+                "ORDER BY users.USER_ID asc ";
 
-        while (rs.next()) {
-            System.out.println(rs);
-        }
-        // while (rs.next()) {
-        //     String coffeeName = rs.getString("COF_NAME");
-        //     int supplierID = rs.getInt("SUP_ID");
-        //     float price = rs.getFloat("PRICE");
-        //     int sales = rs.getInt("SALES");
-        //     int total = rs.getInt("TOTAL");
-        //     System.out.println(coffeeName + ", " + supplierID + ", " + price +
-        //                     ", " + sales + ", " + total);
-        //     JSONObject jsonObject = new JSONObject();
-        //     users_info.add(jsonObject);
-        // }
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                System.out.println(rs);
+            }
+            // while (rs.next()) {
+            //     String coffeeName = rs.getString("COF_NAME");
+            //     int supplierID = rs.getInt("SUP_ID");
+            //     float price = rs.getFloat("PRICE");
+            //     int sales = rs.getInt("SALES");
+            //     int total = rs.getInt("TOTAL");
+            //     System.out.println(coffeeName + ", " + supplierID + ", " + price +
+            //                     ", " + sales + ", " + total);
+            //     JSONObject jsonObject = new JSONObject();
+            //     users_info.add(jsonObject);
+            // }
         }         
         catch (SQLException e) {
             System.err.println(e.getMessage());
