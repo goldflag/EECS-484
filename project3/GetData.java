@@ -176,6 +176,7 @@ public class GetData{
                 "    cityc.STATE_NAME, " +
                 "    cityc.COUNTRY_NAME " +
                 "ORDER BY users.USER_ID asc ";
+            System.out.println(query);
 
             ResultSet rs = stmt.executeQuery(query);
 
