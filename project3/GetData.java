@@ -100,7 +100,7 @@ public class GetData{
                 cityc.CITY_NAME,
                 cityc.STATE_NAME,
                 cityc.COUNTRY_NAME,
-                COLLECT(UNIQUE(frens.USER2_ID)) as ID2
+                frens.USER2_ID fren_ID
             FROM project3.PUBLIC_USERS users 
             INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city 
             ON users.USER_ID = current_city.USER_ID 
@@ -113,20 +113,6 @@ public class GetData{
             INNER JOIN PROJECT3.PUBLIC_FRIENDS frens 
             ON frens.USER1_ID = users.USER_ID 
             WHERE users.USER_ID = 585
-            GROUP BY 
-                users.USER_ID, 
-                users.FIRST_NAME, 
-                users.LAST_NAME, 
-                users.YEAR_OF_BIRTH , 
-                users.MONTH_OF_BIRTH, 
-                users.DAY_OF_BIRTH, 
-                users.GENDER,
-                cityc.CITY_NAME,
-                cityc.STATE_NAME,
-                cityc.COUNTRY_NAME,
-                cityc.CITY_NAME,
-                cityc.STATE_NAME,
-                cityc.COUNTRY_NAME
             ORDER BY users.USER_ID asc;
 
             DESC PROJECT3.PUBLIC_CITIES;
@@ -149,7 +135,8 @@ public class GetData{
                 "    cityc.COUNTRY_NAME, \n" +
                 "    cityc.CITY_NAME, \n" +
                 "    cityc.STATE_NAME, \n" +
-                "    cityc.COUNTRY_NAME \n" +
+                "    cityc.COUNTRY_NAME, \n" +
+                "    frens.USER2_ID fren_ID \n" +
                 "FROM project3.PUBLIC_USERS users  \n" +
                 "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  \n" +
                 "ON users.USER_ID = current_city.USER_ID  \n" +
@@ -161,28 +148,34 @@ public class GetData{
                 "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
                 "INNER JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
                 "ON frens.USER1_ID = users.USER_ID  \n" +
-                "WHERE users.USER_ID = 585 \n" +
-                "GROUP BY  \n" +
-                "    users.USER_ID,  \n" +
-                "    users.FIRST_NAME,  \n" +
-                "    users.LAST_NAME,  \n" +
-                "    users.YEAR_OF_BIRTH ,  \n" +
-                "    users.MONTH_OF_BIRTH,  \n" +
-                "    users.DAY_OF_BIRTH,  \n" +
-                "    users.GENDER, \n" +
-                "    cityc.CITY_NAME, \n" +
-                "    cityc.STATE_NAME, \n" +
-                "    cityc.COUNTRY_NAME, \n" +
-                "    cityc.CITY_NAME, \n" +
-                "    cityc.STATE_NAME, \n" +
-                "    cityc.COUNTRY_NAME \n" +
+                "WHERE users.USER_ID != 585 \n" +
                 "ORDER BY users.USER_ID asc ";
             System.out.println(query);
 
             ResultSet rs = stmt.executeQuery(query);
 
+
+            JSONObject monke = new JSONObject();
+            Integer currentId = -1; 
             while (rs.next()) {
-                System.out.println(rs.getInt("USER_ID"));
+                if (rs.getInt("USER_ID") != currentId ) {
+                    currentId = rs.getInt("USER_ID");
+                    monke = new JSONObject();
+                    monke.put("gender", rs.getString("USER_ID"));
+                    monke.put("MOB", rs.getString("MONTH_OF_BIRTH"));
+                    monke.put("DOB", rs.getString("DAY_OF_BIRTH"));
+                    monke.put("YOB", rs.getString("YEAR_OF_BIRTH"));
+                    monke.put("first_name", rs.getString("FIRST_NAME"));
+                    monke.put("last_name", rs.getString("LAST_NAME"));
+                    JSONObject hometown = new JSONObject();
+                    hometown.put("country", rs.getString("USER_ID"));
+                    hometown.put("city", rs.getString("USER_ID"));
+                    hometown.put("state", rs.getString("USER_ID"));
+                    monke.put("hometown", hometown);
+                    System.out.println(rs.getInt("USER_ID"));
+
+                    users_info.put(monke);
+                }
             }
             // while (rs.next()) {
             //     String coffeeName = rs.getString("COF_NAME");
