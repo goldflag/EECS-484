@@ -131,6 +131,8 @@ public class GetData{
 
             DESC PROJECT3.PUBLIC_CITIES;
             DESC PROJECT3.PUBLIC_friends;
+            "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 \n" +
+
          */
 
         try (Statement stmt = oracleConnection.createStatement()) {
@@ -147,8 +149,7 @@ public class GetData{
                 "    cityc.COUNTRY_NAME, \n" +
                 "    cityc.CITY_NAME, \n" +
                 "    cityc.STATE_NAME, \n" +
-                "    cityc.COUNTRY_NAME, \n" +
-                "    COLLECT(UNIQUE(frens.USER2_ID)) as ID2 \n" +
+                "    cityc.COUNTRY_NAME \n" +
                 "FROM project3.PUBLIC_USERS users  \n" +
                 "INNER JOIN project3.PUBLIC_USER_CURRENT_CITIES current_city  \n" +
                 "ON users.USER_ID = current_city.USER_ID  \n" +
