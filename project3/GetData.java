@@ -148,7 +148,7 @@ public class GetData{
                 "ON hometown_city.HOMETOWN_CITY_ID = cityh.CITY_ID  \n" +
                 "LEFT JOIN PROJECT3.PUBLIC_FRIENDS frens  \n" +
                 "ON frens.USER1_ID = users.USER_ID  \n" +
-                "ORDER BY users.USER_ID asc frens.USER2_ID asc ";
+                "ORDER BY users.USER_ID, frens.USER2_ID asc ";
 
             ResultSet rs = stmt.executeQuery(query);
 
