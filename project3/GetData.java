@@ -154,11 +154,17 @@ public class GetData{
 
             ResultSet rs = stmt.executeQuery(query);
 
-
             JSONObject monke = new JSONObject();
+            JSONArray frens = new JSONArray();
             Integer currentId = -1; 
             while (rs.next()) {
                 if (rs.getInt("USER_ID") != currentId ) {
+                    if (currentId != -1) {
+                        monke.put("frens", frens);
+                        users_info.put(monke);
+                        monke = new JSONObject();
+                        frens = new JSONArray();
+                    }
                     currentId = rs.getInt("USER_ID");
                     monke = new JSONObject();
                     monke.put("gender", rs.getString("USER_ID"));
@@ -173,10 +179,11 @@ public class GetData{
                     hometown.put("state", rs.getString("USER_ID"));
                     monke.put("hometown", hometown);
                     System.out.println(rs.getInt("USER_ID"));
-
-                    users_info.put(monke);
                 }
+                frens.put(rs.getInt("fren_ID"));
             }
+            monke.put("frens", frens);
+            users_info.put(monke);
             // while (rs.next()) {
             //     String coffeeName = rs.getString("COF_NAME");
             //     int supplierID = rs.getInt("SUP_ID");
@@ -212,3 +219,5 @@ public class GetData{
 		
     }
 }
+
+
