@@ -16,7 +16,12 @@
 function suggest_friends(year_diff, dbname) {
     db = db.getSiblingDB(dbname);
     var pairs = [];
-    // TODO: implement suggest friends
-    // Return an array of arrays.
+  
+    var males = [];
+    
+    males = db.users.find({gender: "male"});
+  
+    
+  
     return pairs;
 }
