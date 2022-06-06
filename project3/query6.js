@@ -6,4 +6,6 @@
 function find_average_friendcount(dbname){
   db = db.getSiblingDB(dbname)
   // TODO: return a decimal number of average friend count
+  
+  
 }
