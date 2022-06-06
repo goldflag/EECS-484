@@ -6,7 +6,7 @@ function find_user(city, dbname){
     // TODO: return a Javascript array of user_ids. 
     // db.users.find(...);
 
-    results = db.users.find({"hometown.city" : city}, {user_id: 1, _id: 0});
+    results = db.users.find({"hometown.city" : city}, {user_id: 1, _id: 0}).toArray();
     
                                                                
     return results;
