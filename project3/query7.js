@@ -6,7 +6,7 @@
 
 var num_month_mapper = function() {
   // Implement the map function
-  emit(this.MOB, this.users.length);
+  emit(this.MOB, {Users: 1});
   
 }
 
