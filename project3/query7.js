@@ -15,7 +15,7 @@ var num_month_reducer = function(key, values) {
   var sum = 0;
   
   for(var i = 0, i < values.length, i++){
-    sum = sum + values[i]["Users"]
+    sum = sum + values[i]["Users"];
   }
   
   var ret = {"Users": sum};
