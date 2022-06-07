@@ -11,7 +11,7 @@ var l6 = load('query6.js')
 var l7 = load('query7.js')
 var l8 = load('query8.js')
 
-// // test query1
+// test query1
 // print("===Test1===")
 // var test1 = find_user('Bucklebury', dbname);
 // // print(JSON.stringify(test1, null, 3)); // uncomment this line to print the query1 output
@@ -53,7 +53,7 @@ var l8 = load('query8.js')
 
 
 // test query4
-// print("===Test4===")
+print("===Test4===")
 // var test4 = suggest_friends(5,dbname);
 // // test4.sort((a, b) => a[0]-b[0])
 // // print(JSON.stringify(test4, null, 3)); // uncomment this line to print the query4 output
@@ -70,6 +70,7 @@ var l8 = load('query8.js')
 // test query5
 // print("===Test5=== (This test is time comsuming)")
 // var test5 = oldest_friend(dbname);
+// print(JSON.stringify(test5, null, 2))
 // test5; // uncomment this line to print the query5 output
 // if(Object.keys(test5).length == 798){
 // 	if(test5.hasOwnProperty(799)){
@@ -103,23 +104,23 @@ var l8 = load('query8.js')
 
 
 // // Test query 7 with map reduce
-print("===Test7===")
-var result7 = db.users.mapReduce(
-	num_month_mapper,
-	num_month_reducer,
-	{
-		out: "born_each_month",
-		finalize: num_month_finalizer
-	});
-var test7 = db.born_each_month.find();
-test7; // uncomment this line to print the query7 output
-var ans7 = test7.count();
-if (ans7 == 12) {
-	print("Local test passed! Partially correct.");
-} else {
-	print("Incorrect.");
-	print("Expecting 12 months(keys), you returned ", ans7);
-}
+// print("===Test7===")
+// var result7 = db.users.mapReduce(
+// 	num_month_mapper,
+// 	num_month_reducer,
+// 	{
+// 		out: "born_each_month",
+// 		finalize: num_month_finalizer
+// 	});
+// var test7 = db.born_each_month.find();
+// test7; // uncomment this line to print the query7 output
+// var ans7 = test7.count();
+// if (ans7 == 12) {
+// 	print("Local test passed! Partially correct.");
+// } else {
+// 	print("Incorrect.");
+// 	print("Expecting 12 months(keys), you returned ", ans7);
+// }
 
 // // test query 8 with map reduce
 // print("===Test8===")

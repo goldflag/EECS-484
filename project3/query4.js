@@ -46,6 +46,11 @@ function suggest_friends(year_diff, dbname) {
               friends = true;
             }
           }
+          for (var i = 0; i < females[girl]["friends"].length && !friends; i++) {
+            if (females[girl]["friends"][i] == males[boy]["user_id"]) {
+              friends = true;
+            }
+          }
           //Now push back non friend pairs
           if (!friends) {
             pairs.push([males[boy]["user_id"], females[girl]["user_id"]]);

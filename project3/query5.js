@@ -8,7 +8,33 @@
 
 function oldest_friend(dbname){
   db = db.getSiblingDB(dbname);
-  var results = {};
+
+  const monke = db.flat_users.aggregate([
+    { $lookup:
+        {
+           from: "users",
+           localField: "friends",
+           foreignField: "user_id",
+           as: "fren"
+        }
+    }
+  ]).toArray();
+
+  let results = {};
+  monke.forEach(val => {
+    if (!(val.user_id in results)) {
+      results[val.user_id] = {
+        id: val.friends,
+        age: val.fren[0].YOB
+      };
+    }
+    if (val.fren[0].YOB >= results[val.user_id].age && val.fren[0].user_id < results[val.user_id].id) {
+      results[val.user_id] = {
+        id: val.friends,
+        age: val.fren[0].YOB
+      };
+    }
+  });
   // TODO: implement oldest friends
   // return an javascript object described above
   return results
