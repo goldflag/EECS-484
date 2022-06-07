@@ -20,6 +20,8 @@ var num_month_reducer = function(key, values) {
   
   var ret = {"Users": sum};
   
+  //var ret = sum;
+  
   return ret;
 }
 
