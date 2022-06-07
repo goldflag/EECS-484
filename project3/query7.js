@@ -6,14 +6,21 @@
 
 var num_month_mapper = function() {
   // Implement the map function
-  emit(this.MOB, {Users: 1});
+  emit(this.MOB, {"Users": 1});
   
 }
 
 var num_month_reducer = function(key, values) {
   // Implement the reduce function
+  var sum = 0;
   
-  return Array.sum(values);
+  for(var i = 0, i < values.length, i++){
+    sum = sum + values[i]["Users"]
+  }
+  
+  var ret = {"Users": sum};
+  
+  return ret;
 }
 
 var num_month_finalizer = function(key, reduceVal) {
