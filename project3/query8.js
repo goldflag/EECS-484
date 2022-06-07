@@ -31,5 +31,6 @@ var city_average_friendcount_finalizer = function(key, reduceVal) {
   // is naive: it just forwards the reduceVal to the output collection.
   // Feel free to change it if needed.
   
+  
   return reduceVal["friends"] / reduceVal["Users"];
 }
