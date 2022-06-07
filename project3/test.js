@@ -53,7 +53,7 @@ var l8 = load('query8.js')
 
 
 // test query4
-print("===Test4===")
+// print("===Test4===")
 // var test4 = suggest_friends(5,dbname);
 // // test4.sort((a, b) => a[0]-b[0])
 // // print(JSON.stringify(test4, null, 3)); // uncomment this line to print the query4 output
@@ -68,27 +68,27 @@ print("===Test4===")
 
 
 // test query5
-// print("===Test5=== (This test is time comsuming)")
-// var test5 = oldest_friend(dbname);
+print("===Test5=== (This test is time comsuming)")
+var test5 = oldest_friend(dbname);
 // print(JSON.stringify(test5, null, 2))
-// test5; // uncomment this line to print the query5 output
-// if(Object.keys(test5).length == 798){
-// 	if(test5.hasOwnProperty(799)){
-// 		var ans5 = test5[799];
-// 		if(test5[799] == 51){
-// 			print("Local test passed! Partially correct.");
-// 		} else {
-// 			print("Incorrect.")
-// 			print("Oldest friend for user 799 is 51, you found ", ans5)
-// 		}
-// 	} else {
-// 		print("Incorrect.")
-// 		print("No oldest friend for user 799.")
-// 	}
-// } else {
-// 	print("Incorrect.")
-// 	print("Result should have 798 oldest friends, ", Object.keys(test5).length, " found.")
-// }
+//test5; // uncomment this line to print the query5 output
+if(Object.keys(test5).length == 798){
+	if(test5.hasOwnProperty(799)){
+		var ans5 = test5[799];
+		if(test5[799] == 51){
+			print("Local test passed! Partially correct.");
+		} else {
+			print("Incorrect.")
+			print("Oldest friend for user 799 is 51, you found ", ans5)
+		}
+	} else {
+		print("Incorrect.")
+		print("No oldest friend for user 799.")
+	}
+} else {
+	print("Incorrect.")
+	print("Result should have 798 oldest friends, ", Object.keys(test5).length, " found.")
+}
 
 
 // test query6

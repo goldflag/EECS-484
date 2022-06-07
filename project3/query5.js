@@ -8,34 +8,45 @@
 
 function oldest_friend(dbname){
   db = db.getSiblingDB(dbname);
+  const userInfoMap = {};
+  const allUsers = db.users.find({}, {user_id: 1, YOB: 1, _id: 0 }).toArray();
+  allUsers.forEach(({ user_id, YOB }) => user_id && (userInfoMap[user_id] = YOB));
+  
+  const frensMap = {};
+  db.users.aggregate( [ { $unwind: "$friends" }, {$project : {user_id : 1, friends : 1, _id : 0} }, {$out : "flat_users"} ] );
+  const friendsPars = db.flat_users.find().toArray().map(({ user_id, friends}) => [user_id, friends]);
+  friendsPars.forEach(([fren1, fren2]) => {
 
-  const monke = db.flat_users.aggregate([
-    { $lookup:
-        {
-           from: "users",
-           localField: "friends",
-           foreignField: "user_id",
-           as: "fren"
-        }
+    if (!(fren1 in frensMap)) {
+      frensMap[fren1] = {
+        fren: fren2,
+        age: userInfoMap[fren2]
+      }
     }
-  ]).toArray();
+    if (!(fren2 in frensMap)) {
+      frensMap[fren2] = {
+        fren: fren1,
+        age: userInfoMap[fren1]
+      }
+    }
 
-  let results = {};
-  monke.forEach(val => {
-    if (!(val.user_id in results)) {
-      results[val.user_id] = {
-        id: val.friends,
-        age: val.fren[0].YOB
-      };
+    if (userInfoMap[fren2] <= frensMap[fren1].age || (userInfoMap[fren2] == frensMap[fren1].age && frensMap[fren1].fren > fren2)) {
+      frensMap[fren1] = {
+        fren: fren2,
+        age: userInfoMap[fren2]
+      }
     }
-    if (val.fren[0].YOB >= results[val.user_id].age && val.fren[0].user_id < results[val.user_id].id) {
-      results[val.user_id] = {
-        id: val.friends,
-        age: val.fren[0].YOB
-      };
+    if (userInfoMap[fren1] <= frensMap[fren2].age || ( userInfoMap[fren1] == frensMap[fren2].age && frensMap[fren2].fren > fren1)) {
+      frensMap[fren2] = {
+        fren: fren1,
+        age: userInfoMap[fren1]
+      }
     }
   });
-  // TODO: implement oldest friends
-  // return an javascript object described above
-  return results
+
+  const res = {};
+  Object.entries(frensMap).forEach(([key, val]) => {
+    res[key] = val.fren;
+  });
+  return res;
 }
