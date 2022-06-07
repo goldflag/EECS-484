@@ -11,60 +11,59 @@ var l6 = load('query6.js')
 var l7 = load('query7.js')
 var l8 = load('query8.js')
 
-// test query1
-// print("===Test1===")
-// var test1 = find_user('Bucklebury', dbname);
-// // print(JSON.stringify(test1, null, 3)); // uncomment this line to print the query1 output
-// var ans1 = test1.length;
-// if(ans1 == 42){
-// 	print("Local test passed! Partially correct.");
-// } else {
-// 	print("Incorrect!");
-// 	print("Expepcting 42 users from Bucklebury, ", ans1, " are found.");
-// }
+// // test query1
+print("===Test1===")
+var test1 = find_user('Bucklebury', dbname);
+// print(JSON.stringify(test1, null, 3)); // uncomment this line to print the query1 output
+var ans1 = test1.length;
+if(ans1 == 42){
+	print("Local test passed! Partially correct.");
+} else {
+	print("Incorrect!");
+	print("Expepcting 42 users from Bucklebury, ", ans1, " are found.");
+}
 
 
 // test query2
-// print("===Test2===")
-// unwind_friends(dbname);
-// var test2 = db.flat_users.find();
-// test2; // uncomment this line to print the query2 output
-// var ans2 = test2.count();
-// if(ans2 == 21355){
-// 	print("Local test passed! Partially correct.");
-// } else {
-// 	print("Local test failed! ");
-// 	print("Expecting 21355 pairs of friends, ", ans2, " pairs found.");
-// }
+print("===Test2===")
+unwind_friends(dbname);
+var test2 = db.flat_users.find();
+//test2; // uncomment this line to print the query2 output
+var ans2 = test2.count();
+if(ans2 == 21355){
+	print("Local test passed! Partially correct.");
+} else {
+	print("Local test failed! ");
+	print("Expecting 21355 pairs of friends, ", ans2, " pairs found.");
+}
 
 
 // // test query3
-// print("===Test3===")
-// cities_table(dbname);
-// var test3 = db.cities.find({"_id" : "Bucklebury"}).next().users;
-// print(test3); // uncomment this line to print the query3 output
-// var ans3 = test3.length;
-// if(ans3 == 43){
-// 	print("Local test passed! Partially correct.");
-// } else {
-// 	print("Incorrect.");
-// 	print("Expecting 43 users living in Bucklebury, ", ans3, " found.");
-// }
+print("===Test3===")
+cities_table(dbname);
+var test3 = db.cities.find({"_id" : "Bucklebury"}).next().users;
+var ans3 = test3.length;
+if(ans3 == 43){
+	print("Local test passed! Partially correct.");
+} else {
+	print("Incorrect.");
+	print("Expecting 43 users living in Bucklebury, ", ans3, " found.");
+}
 
 
-// test query4
-// print("===Test4===")
-// var test4 = suggest_friends(5,dbname);
-// // test4.sort((a, b) => a[0]-b[0])
-// // print(JSON.stringify(test4, null, 3)); // uncomment this line to print the query4 output
+// // test query4
+print("===Test4===")
+var test4 = suggest_friends(5,dbname);
+// test4.sort((a, b) => a[0]-b[0])
+// print(JSON.stringify(test4, null, 3)); // uncomment this line to print the query4 output
 
-// var ans4 = test4.length;
-// if (ans4 == 87){
-// 	print("Local test passed! Partially correct.");
-// } else {
-// 	print("Incorrect.");
-// 	print("Expecting 87 pairs of suggested friends, ", ans4, " pairs found.");
-// }
+var ans4 = test4.length;
+if (ans4 == 87){
+	print("Local test passed! Partially correct.");
+} else {
+	print("Incorrect.");
+	print("Expecting 87 pairs of suggested friends, ", ans4, " pairs found.");
+}
 
 
 // test query5
@@ -92,15 +91,15 @@ if(Object.keys(test5).length == 798){
 
 
 // test query6
-// print("===Test6===")
-// var ans6 = find_average_friendcount(dbname);
-// print(JSON.stringify(ans6, null, 4)); // uncomment this line to print the query6 output
-// if (ans6 > 26 & ans6 < 27) {
-// 	print("Local test passed! Partially correct.");
-// } else {
-// 	print("Incorrect.");
-// 	print("The average number of friends is between 26 to 27, you got ", ans6);
-// }
+print("===Test6===")
+var ans6 = find_average_friendcount(dbname);
+print(JSON.stringify(ans6, null, 4)); // uncomment this line to print the query6 output
+if (ans6 > 26 & ans6 < 27) {
+	print("Local test passed! Partially correct.");
+} else {
+	print("Incorrect.");
+	print("The average number of friends is between 26 to 27, you got ", ans6);
+}
 
 
 // // Test query 7 with map reduce
