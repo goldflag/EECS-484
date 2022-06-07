@@ -33,6 +33,8 @@ setupmydb:
 	# import data into mongodb
 	mongoimport --host eecs484.eecs.umich.edu --username $(uniqname) --password $(password)  --collection users --db $(uniqname) --file  output.json --jsonArray
 
+	mongoimport --username billyang --password $(password)  --collection users --db $(uniqname) --file  output.json --jsonArray
+
 mongotest:
 	@echo "Running test.js using the database. Run make setupsampledb or make setupmydb before this."
 	@echo "You must edit the uniqname and password in Makefile"

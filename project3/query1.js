@@ -8,7 +8,6 @@ function find_user(city, dbname){
 
     results = db.users.find({"hometown.city" : city}, {user_id: 1, _id: 0}).toArray();
     
-                                                               
     return results;
     
 }
