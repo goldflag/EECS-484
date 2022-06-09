@@ -9,7 +9,10 @@
 function oldest_friend(dbname) {
   db = db.getSiblingDB(dbname);
   const userInfoMap = {};
-  const allUsers = db.users.find({}, { user_id: 1, YOB: 1, _id: 0 }).toArray();
+  const allUsers = db.users
+    .find({}, { user_id: 1, YOB: 1, _id: 0 })
+    .toArray()
+    .filter(({ user_id }) => typeof user_id == "number");
   allUsers.forEach(
     ({ user_id, YOB }) => user_id && (userInfoMap[user_id] = YOB)
   );
@@ -39,7 +42,7 @@ function oldest_friend(dbname) {
     }
 
     if (
-      userInfoMap[fren2] <= frensMap[fren1].age ||
+      userInfoMap[fren2] < frensMap[fren1].age ||
       (userInfoMap[fren2] == frensMap[fren1].age &&
         frensMap[fren1].fren > fren2)
     ) {
@@ -49,7 +52,7 @@ function oldest_friend(dbname) {
       };
     }
     if (
-      userInfoMap[fren1] <= frensMap[fren2].age ||
+      userInfoMap[fren1] < frensMap[fren2].age ||
       (userInfoMap[fren1] == frensMap[fren2].age &&
         frensMap[fren2].fren > fren1)
     ) {

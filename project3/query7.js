@@ -6,23 +6,24 @@
 
 var num_month_mapper = function() {
   // Implement the map function
-  emit(this.MOB, {"Users": 1});
-  
+  // emit(this.MOB, {"Users": 1});
+  if (typeof this.MOB === 'number') {
+    emit(this.MOB, 1);
+  }
 }
 
 var num_month_reducer = function(key, values) {
   // Implement the reduce function
-  var sum = 0;
+  // var sum = 0;
   
-  for(var i = 0; i < values.length; i++){
-    sum = sum + values[i]["Users"];
-  }
+  // for(var i = 0; i < values.length; i++){
+  //   sum = sum + values[i]["Users"];
+  // }
   
-  var ret = {"Users": sum};
-  
-  //var ret = sum;
-  
-  return ret;
+  // var ret = {"Users": sum};
+    
+  // return ret;
+  return Array.sum(values);
 }
 
 var num_month_finalizer = function(key, reduceVal) {
