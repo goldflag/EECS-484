@@ -121,7 +121,7 @@ vector<Bucket> partition(
 vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
     vector<unsigned int> page_ids;
     mem->reset();
-
+    int loadCount = 0;
     Page* output_buffer_page = mem->mem_page(output_buffer);
     // cout << "partition size: " << partitions.size() << endl;
 
@@ -136,6 +136,8 @@ vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
 
         for (auto j : smaller) {
             mem->loadFromDisk(disk, j, input_buffer);
+            // cout << "load smaller: " << j << endl;
+            loadCount++;
             Page* input_buffer_page = mem->mem_page(input_buffer);
             for (unsigned int k = 0; k < input_buffer_page->size(); k++) {
                 Record rec = input_buffer_page->get_record(k);
@@ -145,6 +147,8 @@ vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
             }
             for (auto k : larger) {
                 mem->loadFromDisk(disk, k, input_buffer);
+                loadCount++;
+                // cout << "load bigger: " << k << endl;
                 Page* input_buffer_page_check = mem->mem_page(input_buffer);
                 for (unsigned int monke = 0; monke < input_buffer_page->size(); monke++) {
                     Record rec_big = input_buffer_page_check->get_record(monke);
@@ -166,15 +170,19 @@ vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
                         }
                     }
                 }
+                // cout << "output_buffer_page: " << output_buffer_page->size()  << endl;
             }
         }
+        unsigned int temp_disk = mem->flushToDisk(disk, output_buffer);
         mem->reset();
+        mem->loadFromDisk(disk, temp_disk, output_buffer);
     }
+    // cout << "output_buffer_page: " << output_buffer_page->size()  << endl;
     if (output_buffer_page->size() > 0) {
         unsigned int disk_page_id = mem->flushToDisk(disk, output_buffer);
         page_ids.push_back(disk_page_id);
     }
-
+    // cout << "loadcount: " << loadCount << endl;
     return page_ids;
 }
 
