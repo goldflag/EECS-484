@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
 	/* Grace Hash Join Probe Phase */
 	vector<unsigned int> join_res = probe(&disk, &mem, res);
 
+	// cout << "=================\n";
 	/* Print the result */
 	print(join_res, &disk);
 	return 0;
