@@ -168,10 +168,13 @@ vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
                 }
             }
         }
-
         mem->reset();
     }
-    
+    if (output_buffer_page->size() > 0) {
+        unsigned int disk_page_id = mem->flushToDisk(disk, output_buffer);
+        page_ids.push_back(disk_page_id);
+    }
+
     return page_ids;
 }
 
