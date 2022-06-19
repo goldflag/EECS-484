@@ -149,9 +149,9 @@ vector<unsigned int> probe(Disk* disk, Mem* mem, vector<Bucket>& partitions) {
                 mem->loadFromDisk(disk, k, input_buffer);
                 loadCount++;
                 // cout << "load bigger: " << k << endl;
-                Page* input_buffer_page_check = mem->mem_page(input_buffer);
+                // Page* input_buffer_page_check = mem->mem_page(input_buffer);
                 for (unsigned int monke = 0; monke < input_buffer_page->size(); monke++) {
-                    Record rec_big = input_buffer_page_check->get_record(monke);
+                    Record rec_big = input_buffer_page->get_record(monke);
                     unsigned int partition_index = rec_big.probe_hash() % (MEM_SIZE_IN_PAGE - 2);
                     // rec.print();
                     // cout << partition_index << "\n"; 
